@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestor de Tráfego Turbo — tráfego pago dentro do Claude Code</title>
+<meta name="description" content="Agente de tráfego pago para Claude Code com 16 skills: Meta Ads e Google Ads com protocolo fixo de subida, diagnóstico e orçamento. Grátis no GitHub.">
+<meta property="og:title" content="Gestor de Tráfego Turbo">
+<meta property="og:description" content="Um gestor de tráfego pago que trabalha dentro do Claude Code. Grátis, aberto, 16 skills.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A;
+    --paper:#F4F1EA;
+    --paper-dim:rgba(244,241,234,.62);
+    --paper-faint:rgba(244,241,234,.38);
+    --gold:#D4AF37;
+    --rule:rgba(244,241,234,.14);
+    --rule-strong:rgba(244,241,234,.28);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  em{font-style:italic}
+  a{color:inherit}
+
+  /* ── masthead ─────────────────────────────── */
+  header{border-bottom:1px solid var(--rule-strong)}
+  .mast{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-dim)}
+  .mast b{color:var(--paper);font-weight:600}
+  .mast a{text-decoration:none;color:var(--gold)}
+
+  /* ── hero ─────────────────────────────────── */
+  .hero{padding:96px 0 72px;position:relative}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.08em;color:var(--gold);margin-bottom:28px}
+  h1{
+    font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+    font-size:clamp(44px,7.2vw,86px);line-height:1.04;letter-spacing:-.01em;
+    max-width:16ch;
+  }
+  h1 .gold{color:var(--gold)}
+  .hero p.dek{
+    margin-top:34px;max-width:52ch;font-size:19px;line-height:1.6;color:var(--paper-dim);
+  }
+  .hero-cta{margin-top:44px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .btn{
+    display:inline-block;text-decoration:none;
+    font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:.02em;
+    padding:16px 28px;border:1px solid var(--gold);color:var(--ink);background:var(--gold);
+    transition:background .18s ease,color .18s ease;
+  }
+  .btn:hover{background:transparent;color:var(--gold)}
+  .btn:active{transform:scale(.98)}
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .install a:focus-visible{outline-color:var(--ink)}
+  .btn-ghost{background:transparent;color:var(--paper-dim);border-color:var(--rule-strong)}
+  .btn-ghost:hover{color:var(--paper);border-color:var(--paper)}
+
+  /* ── números ──────────────────────────────── */
+  .numbers{border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong)}
+  .numbers .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+  .num{padding:34px 20px 30px;border-left:1px solid var(--rule)}
+  .num:first-child{border-left:none;padding-left:0}
+  .num b{display:block;font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:52px;line-height:1;color:var(--gold)}
+  .num span{display:block;margin-top:10px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
+
+  /* ── seções ───────────────────────────────── */
+  section{padding:88px 0}
+  .sec-label{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(30px,4vw,44px);line-height:1.15;max-width:26ch}
+
+  /* entregáveis — lista editorial */
+  .ledger{margin-top:56px;border-top:1px solid var(--rule-strong)}
+  .row{
+    display:grid;grid-template-columns:64px 240px 1fr;gap:28px;
+    padding:26px 0;border-bottom:1px solid var(--rule);align-items:baseline;
+  }
+  .row .idx{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--paper-faint)}
+  .row h3{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:23px;line-height:1.25}
+  .row p{color:var(--paper-dim);font-size:15.5px;max-width:58ch}
+  .row p b{color:var(--paper);font-weight:500}
+
+  /* comandos — grid mono */
+  .cmds{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--rule-strong)}
+  .cmd{padding:22px 18px 26px;border-left:1px solid var(--rule);min-height:130px}
+  .cmd:first-child,.cmd:nth-child(5){border-left:none}
+  .cmd:nth-child(n+5){border-top:1px solid var(--rule)}
+  .cmd b{display:block;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:14px;color:var(--gold);margin-bottom:8px}
+  .cmd span{font-size:13px;line-height:1.5;color:var(--paper-dim)}
+  .method-note{margin-top:26px;color:var(--paper-dim);font-size:15.5px;max-width:64ch}
+  .method-note b{color:var(--paper);font-weight:500}
+
+  /* instalar */
+  .install{background:var(--paper);color:var(--ink)}
+  .install .sec-label{color:#8a6d1c}
+  .install h2{color:var(--ink)}
+  .install p.lead{margin-top:20px;color:rgba(10,10,10,.65);max-width:56ch;font-size:16.5px}
+  .terminal{
+    margin-top:44px;background:var(--ink);color:var(--paper);
+    font-family:"JetBrains Mono",monospace;font-size:14px;line-height:1.9;
+    padding:28px 30px;overflow-x:auto;
+  }
+  .terminal .c{color:rgba(244,241,234,.4)}
+  .terminal .g{color:var(--gold)}
+  .install .after{margin-top:28px;font-size:15px;color:rgba(10,10,10,.65)}
+  .install .after a{color:var(--ink);font-weight:500}
+
+  /* CTA final */
+  .cta-final{text-align:left;padding:110px 0 120px}
+  .cta-final h2{max-width:28ch}
+  .cta-final .hero-cta{margin-top:40px}
+  .fine{margin-top:30px;font-size:13.5px;color:var(--paper-dim);max-width:60ch}
+  .fine a{color:var(--paper)}
+
+  footer{border-top:1px solid var(--rule-strong);padding:30px 0 44px;font-size:12.5px;letter-spacing:.06em;color:var(--paper-dim)}
+  footer a{color:var(--paper-dim);text-decoration:none}
+  footer a:hover{color:var(--gold)}
+
+  /* reveal on load */
+  .hero > *{opacity:0;transform:translateY(14px);animation:up .55s cubic-bezier(.32,.72,0,1) forwards}
+  .hero .kicker{animation-delay:.05s}
+  .hero h1{animation-delay:.15s}
+  .hero p.dek{animation-delay:.3s}
+  .hero .hero-cta{animation-delay:.45s}
+  @keyframes up{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.hero>*{animation:none;opacity:1;transform:none}}
+
+  @media (max-width:900px){
+    .numbers .wrap{grid-template-columns:repeat(2,1fr)}
+    .num:nth-child(3){border-left:none;padding-left:0}
+    .num{border-top:1px solid var(--rule)}
+    .num:nth-child(-n+2){border-top:none}
+    .cmds{grid-template-columns:1fr 1fr}
+    .cmd{border-left:1px solid var(--rule)}
+    .cmd:nth-child(odd){border-left:none}
+    .cmd:nth-child(n+3){border-top:1px solid var(--rule)}
+  }
+  @media (max-width:680px){
+    .row{grid-template-columns:1fr;gap:8px;padding:22px 0}
+    .row .idx{display:none}
+    .cmds{grid-template-columns:1fr}
+    .cmd{border-left:none!important}
+    .cmd:nth-child(n+2){border-top:1px solid var(--rule)}
+    section{padding:64px 0}
+    .hero{padding:64px 0 56px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap mast">
+    <div><b>Gestor de Tráfego Turbo</b></div>
+    <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub ↗</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <p class="kicker">Turbo Academy · agente para Claude Code · grátis</p>
+    <h1>Um gestor de tráfego que trabalha <span class="gold">dentro do Claude&nbsp;Code.</span></h1>
+    <p class="dek">Meta Ads e Google Ads com protocolo fixo: ele pede os 4 inputs, calcula o CAC ideal, estrutura Cost Cap e ROAS incremental, diagnostica métrica por métrica e monta o orçamento de trás pra frente. Você aprova. Ele executa.</p>
+    <div class="hero-cta">
+      <a class="btn" href="https://github.com/Turbo-Academy/gestor-trafego-turbo/archive/refs/heads/main.zip">Baixar o Gestor de Tráfego (.zip)</a>
+      <a class="btn btn-ghost" href="https://github.com/Turbo-Academy/gestor-trafego-turbo">Ver no GitHub</a>
+    </div>
+  </div>
+
+  <div class="numbers">
+    <div class="wrap">
+      <div class="num"><b>16</b><span>skills incluídas</span></div>
+      <div class="num"><b>4</b><span>inputs antes de subir</span></div>
+      <div class="num"><b>15</b><span>criativos por batelada</span></div>
+      <div class="num"><b>1</b><span>variável por teste</span></div>
+    </div>
+  </div>
+
+  <section id="oquefaz">
+    <div class="wrap">
+      <p class="sec-label">O que ele faz</p>
+      <h2>O trabalho de um gestor de tráfego sênior. Sem achismo, com protocolo.</h2>
+
+      <div class="ledger">
+        <div class="row">
+          <span class="idx">01</span>
+          <h3>Protocolo de subida</h3>
+          <p>Nada sobe sem o gate: <b>ticket, conversão, preço do principal e ROAS desejado</b>. Com isso ele calcula o CAC ideal e monta as duas campanhas do protocolo — Cost Cap com até 15 criativos e ROAS incremental pra escalar pelo valor.</p>
+        </div>
+        <div class="row">
+          <span class="idx">02</span>
+          <h3>Diagnóstico em sequência fixa</h3>
+          <p>Hook rate abaixo de 30%, troca o hook. Body fraco, reescreve. CTR abaixo de 1.5%, revê a promessa. CPA alto, olha a página. <b>Cada métrica aponta pra uma ação</b> — cadência diária de 10 minutos, debrief semanal, saúde da conta no mês.</p>
+        </div>
+        <div class="row">
+          <span class="idx">03</span>
+          <h3>Orçamento de trás pra frente</h3>
+          <p>Meta de inscritos × CPA-alvo = verba da semana. Escala de <b>+20 a 30%</b> só com 3 dias de ROAS estável. Kill rule: gastou R$150 sem venda, pausa. A conta decide, não a ansiedade.</p>
+        </div>
+        <div class="row">
+          <span class="idx">04</span>
+          <h3>Execução via Meta Ads CLI</h3>
+          <p>Sobe campanha direto pela Graph API com runbooks validados em campo — cost cap, atribuição incremental, carrossel, vídeo grande. <b>Toda campanha nasce pausada.</b> Ativar é decisão sua, sempre.</p>
+        </div>
+        <div class="row">
+          <span class="idx">05</span>
+          <h3>Criativos e páginas</h3>
+          <p>Batelada de 15 criativos (5 estáticos, 5 carrosséis, 5 vídeos) com arsenal de hooks e copy de anúncio. Páginas de destino com <b>LCP abaixo de 1.5s</b> — porque criativo bom com página lenta é verba queimada.</p>
+        </div>
+        <div class="row">
+          <span class="idx">06</span>
+          <h3>Dois modelos, duas contas</h3>
+          <p>Evento: ROAS 1 no ingresso, lucro no produto principal. Funil perpétuo: CPA-máximo derivado do <b>LTV</b>, não do front. Ele pergunta qual é o seu modelo antes de otimizar — porque o alvo muda tudo. Google Ads entra no papel certo: search de marca e remarketing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="comandos" style="padding-top:0">
+    <div class="wrap">
+      <p class="sec-label">Comandos rápidos</p>
+      <h2>Você chama, ele responde no papel de gestor.</h2>
+
+      <div class="cmds">
+        <div class="cmd"><b>*subir-campanhas</b><span>gate de 4 inputs → Cost Cap + ROAS incremental</span></div>
+        <div class="cmd"><b>*estrutura-campanha</b><span>estrutura completa de campanhas</span></div>
+        <div class="cmd"><b>*otimizar</b><span>diagnóstico e otimização de métricas</span></div>
+        <div class="cmd"><b>*orcamento</b><span>plano de verba e distribuição</span></div>
+        <div class="cmd"><b>*publicos</b><span>públicos e segmentações</span></div>
+        <div class="cmd"><b>*funil-8-turbo</b><span>campanha ASC do produto de entrada</span></div>
+        <div class="cmd"><b>*distribuicao-turbo</b><span>impulsionamento e remarketing de consciência</span></div>
+        <div class="cmd"><b>*google-ads</b><span>search de marca e YouTube remarketing</span></div>
+      </div>
+
+      <p class="method-note">A premissa dele é uma só: <b>uma variável por teste</b>. Mudou duas coisas, você não sabe o que funcionou. Criativo antes de público, escala horizontal antes de verba, decisão pelo número medido — não pelo pixel inflado.</p>
+    </div>
+  </section>
+
+  <section class="install" id="instalar">
+    <div class="wrap">
+      <p class="sec-label">Como instalar</p>
+      <h2>Grátis, aberto e rodando em três comandos.</h2>
+      <p class="lead">Requisito: <a href="https://claude.com/claude-code" style="color:inherit">Claude Code</a> instalado. O pacote traz o agente e as 16 skills — o instalador coloca tudo no lugar.</p>
+
+      <div class="terminal">
+<span class="c"># 1 · clonar o repositório</span><br>
+<span class="g">$</span> git clone https://github.com/Turbo-Academy/gestor-trafego-turbo.git<br>
+<br>
+<span class="c"># 2 · instalar agente + skills</span><br>
+<span class="g">$</span> cd gestor-trafego-turbo && ./install.sh<br>
+<br>
+<span class="c"># 3 · reiniciar o Claude Code e chamar o gestor</span><br>
+<span class="c">"Use o agente trafego-turbo para estruturar minhas campanhas"</span>
+      </div>
+
+      <p class="after">Seu dinheiro continua no seu controle: toda campanha nova nasce <b>pausada</b>, toda operação de escrita pede confirmação e o token da Meta fica na sua máquina — o setup mostra como guardar fora de qualquer repositório.</p>
+    </div>
+  </section>
+
+  <div class="wrap cta-final">
+    <p class="sec-label">Pra quem é</p>
+    <h2>Se você gerencia o próprio tráfego — ou paga caro pra alguém gerenciar — isso é pra você. Você sabe.</h2>
+    <div class="hero-cta">
+      <a class="btn" href="https://github.com/Turbo-Academy/gestor-trafego-turbo/archive/refs/heads/main.zip">Baixar o Gestor de Tráfego (.zip)</a>
+      <a class="btn btn-ghost" href="https://github.com/Turbo-Academy/gestor-trafego-turbo">Ver no GitHub</a>
+    </div>
+    <p class="fine">Licença dual: código sob MIT, método e conteúdo sob CC BY-NC-SA 4.0. Usar no seu próprio negócio é permitido sem custo — detalhes no <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo/blob/main/LICENSE">LICENSE</a>.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <span>© 2026 Leo Tabari · Turbo Academy</span>
+    <span><a href="https://turboacademy.com.br">turboacademy.com.br</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
