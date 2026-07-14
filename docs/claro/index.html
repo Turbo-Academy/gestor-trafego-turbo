@@ -13,13 +13,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0A0A0A;
-    --paper:#F4F1EA;
-    --paper-dim:rgba(244,241,234,.62);
-    --paper-faint:rgba(244,241,234,.38);
-    --gold:#D4AF37;
-    --rule:rgba(244,241,234,.14);
-    --rule-strong:rgba(244,241,234,.28);
+    --ink:#F4F1EA;
+    --paper:#0A0A0A;
+    --paper-dim:rgba(10,10,10,.66);
+    --paper-faint:rgba(10,10,10,.42);
+    --gold:#AD831F;
+    --rule:rgba(10,10,10,.12);
+    --rule-strong:rgba(10,10,10,.24);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -31,7 +31,7 @@
     -webkit-font-smoothing:antialiased;
   }
   body::after{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.035;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   }
   .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
@@ -42,17 +42,17 @@
   header{border-bottom:1px solid var(--rule-strong)}
   .mast{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-dim)}
   .mast b{color:var(--paper);font-weight:600}
-  .mast a{text-decoration:none;color:var(--gold)}
+  .mast a{text-decoration:none;color:#7A5D15}
 
   /* ── hero ─────────────────────────────────── */
   .hero{padding:96px 0 72px;position:relative}
-  .kicker{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.08em;color:var(--gold);margin-bottom:28px}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.08em;color:#7A5D15;margin-bottom:28px}
   h1{
     font-family:"Instrument Serif",Georgia,serif;font-weight:400;
     font-size:clamp(44px,7.2vw,86px);line-height:1.04;letter-spacing:-.01em;
     max-width:16ch;
   }
-  h1 .gold{color:var(--gold)}
+  h1 .gold{color:#7A5D15}
   .hero p.dek{
     margin-top:34px;max-width:52ch;font-size:19px;line-height:1.6;color:var(--paper-dim);
   }
@@ -60,24 +60,24 @@
   .btn{
     display:inline-block;text-decoration:none;
     font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:.02em;
-    padding:16px 28px;border:1px solid var(--gold);color:var(--ink);background:var(--gold);
+    padding:16px 28px;border:1px solid var(--paper);color:var(--ink);background:var(--paper);
     transition:background .18s ease,color .18s ease;
   }
-  .btn:hover{background:transparent;color:var(--gold)}
+  .btn:hover{background:transparent;color:var(--paper)}
   .btn:active{transform:scale(.98)}
-  a:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  .install a:focus-visible{outline-color:var(--ink)}
+  a:focus-visible,.btn:focus-visible{outline:2px solid #7A5D15;outline-offset:2px}
+
   /* ── números ──────────────────────────────── */
   .numbers{border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong)}
   .numbers .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
   .num{padding:34px 20px 30px;border-left:1px solid var(--rule)}
   .num:first-child{border-left:none;padding-left:0}
-  .num b{display:block;font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:52px;line-height:1;color:var(--gold)}
+  .num b{display:block;font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:52px;line-height:1;color:#7A5D15}
   .num span{display:block;margin-top:10px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
 
   /* ── seções ───────────────────────────────── */
   section{padding:88px 0}
-  .sec-label{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  .sec-label{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#7A5D15;margin-bottom:18px}
   h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(30px,4vw,44px);line-height:1.15;max-width:26ch}
 
   /* entregáveis — lista editorial */
@@ -96,25 +96,27 @@
   .cmd{padding:22px 18px 26px;border-left:1px solid var(--rule);min-height:130px}
   .cmd:first-child,.cmd:nth-child(5){border-left:none}
   .cmd:nth-child(n+5){border-top:1px solid var(--rule)}
-  .cmd b{display:block;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:14px;color:var(--gold);margin-bottom:8px}
+  .cmd b{display:block;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:14px;color:#7A5D15;margin-bottom:8px}
   .cmd span{font-size:13px;line-height:1.5;color:var(--paper-dim)}
   .method-note{margin-top:26px;color:var(--paper-dim);font-size:15.5px;max-width:64ch}
   .method-note b{color:var(--paper);font-weight:500}
 
-  /* instalar */
+  /* instalar — inverte pra escuro (mesmo ritmo da versão dark, espelhado) */
   .install{background:var(--paper);color:var(--ink)}
-  .install .sec-label{color:#8a6d1c}
+  .install .sec-label{color:#D4AF37}
   .install h2{color:var(--ink)}
-  .install p.lead{margin-top:20px;color:rgba(10,10,10,.65);max-width:56ch;font-size:16.5px}
+  .install p.lead{margin-top:20px;color:rgba(244,241,234,.68);max-width:56ch;font-size:16.5px}
+  .install p.lead a{color:var(--ink)}
   .terminal{
-    margin-top:44px;background:var(--ink);color:var(--paper);
+    margin-top:44px;background:#000;color:var(--ink);
     font-family:"JetBrains Mono",monospace;font-size:14px;line-height:1.9;
     padding:28px 30px;overflow-x:auto;
   }
   .terminal .c{color:rgba(244,241,234,.4)}
-  .terminal .g{color:var(--gold)}
-  .install .after{margin-top:28px;font-size:15px;color:rgba(10,10,10,.65)}
+  .terminal .g{color:#D4AF37}
+  .install .after{margin-top:28px;font-size:15px;color:rgba(244,241,234,.68)}
   .install .after a{color:var(--ink);font-weight:500}
+  .install a:focus-visible{outline-color:#D4AF37}
 
   /* CTA final */
   .cta-final{text-align:left;padding:110px 0 120px}
@@ -125,7 +127,7 @@
 
   footer{border-top:1px solid var(--rule-strong);padding:30px 0 44px;font-size:12.5px;letter-spacing:.06em;color:var(--paper-dim)}
   footer a{color:var(--paper-dim);text-decoration:none}
-  footer a:hover{color:var(--gold)}
+  footer a:hover{color:#7A5D15}
 
   /* reveal on load */
   .hero > *{opacity:0;transform:translateY(14px);animation:up .55s cubic-bezier(.32,.72,0,1) forwards}
@@ -163,7 +165,7 @@
   <div class="wrap mast">
     <div><b>Gestor de Tráfego Turbo</b></div>
     <div style="display:flex;gap:22px">
-      <a href="claro/" style="color:var(--paper-dim)">Fundo claro</a>
+      <a href="../" style="color:var(--paper-dim)">Fundo escuro</a>
       <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub ↗</a>
     </div>
   </div>
@@ -251,7 +253,7 @@
     <div class="wrap">
       <p class="sec-label">Como instalar</p>
       <h2>Grátis, aberto e rodando em três comandos.</h2>
-      <p class="lead">Requisito: <a href="https://claude.com/claude-code" style="color:inherit">Claude Code</a> instalado. O pacote traz o agente e as 16 skills — o instalador coloca tudo no lugar.</p>
+      <p class="lead">Requisito: <a href="https://claude.com/claude-code">Claude Code</a> instalado. O pacote traz o agente e as 16 skills — o instalador coloca tudo no lugar.</p>
 
       <div class="terminal">
 <span class="c"># 1 · clonar o repositório</span><br>
