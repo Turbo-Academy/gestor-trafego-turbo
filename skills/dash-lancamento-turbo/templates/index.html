@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — Lançamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --primary: oklch(0.22 0.03 250);
+    --accent:  oklch(0.72 0.18 55);
+    --mint:    oklch(0.78 0.12 165);
+    --alert:   oklch(0.65 0.20 25);
+    --amber:   oklch(0.82 0.15 80);
+    --paper:   oklch(0.98 0.01 90);
+    --ink:     oklch(0.18 0.01 250);
+    --muted:   oklch(0.55 0.02 250);
+    --line:    oklch(0.92 0.01 250);
+    --radius:  14px;
+    --shadow:  0 1px 2px oklch(0.22 0.03 250 / .06), 0 8px 24px oklch(0.22 0.03 250 / .06);
+  }
+  [data-theme="dark"] {
+    --paper: oklch(0.18 0.01 250);
+    --ink:   oklch(0.96 0.01 90);
+    --line:  oklch(0.28 0.01 250);
+    --muted: oklch(0.68 0.02 250);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Inter", system-ui, sans-serif; }
+  h1, h2, h3 { font-family: "DM Serif Display", serif; font-weight: 400; margin: 0; letter-spacing: -0.01em; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 32px 24px 80px; }
+  header.hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+  header.hero h1 { font-size: clamp(28px, 4vw, 48px); line-height: 1.05; }
+  header.hero .sub { color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 8px; }
+  .status { padding: 8px 14px; border-radius: 999px; font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.12em; }
+  .status.ok    { background: color-mix(in oklch, var(--mint) 20%, transparent); color: var(--mint); }
+  .status.warn  { background: color-mix(in oklch, var(--amber) 20%, transparent); color: var(--amber); }
+  .status.bad   { background: color-mix(in oklch, var(--alert) 20%, transparent); color: var(--alert); }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(12, 1fr); }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+  .kpi { grid-column: span 3; }
+  .kpi .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+  .kpi .value { font-family: "DM Serif Display", serif; font-size: 40px; line-height: 1.1; margin-top: 8px; }
+  .kpi .meta  { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .bar { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; margin-top: 12px; }
+  .bar > div { height: 100%; background: var(--accent); transition: width .6s ease; }
+  .chart { grid-column: span 6; }
+  .chart.full { grid-column: span 12; }
+  .chart canvas { display: block; width: 100% !important; height: 300px !important; }
+  .gatilhos { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .gat { padding: 16px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--paper); }
+  .gat.verde    { border-color: var(--mint);  background: color-mix(in oklch, var(--mint) 8%, var(--paper)); }
+  .gat.amarelo  { border-color: var(--amber); background: color-mix(in oklch, var(--amber) 10%, var(--paper)); }
+  .gat.vermelho { border-color: var(--alert); background: color-mix(in oklch, var(--alert) 10%, var(--paper)); }
+  .gat .tag { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .insights { grid-column: span 12; padding: 24px; background: var(--ink); color: var(--paper); border-radius: var(--radius); }
+  .insights h3 { font-size: 22px; margin-bottom: 12px; }
+  .insights ul { margin: 0; padding-left: 20px; }
+  .insights li { margin-bottom: 8px; line-height: 1.5; }
+
+  @media (max-width: 900px) {
+    .kpi, .chart { grid-column: span 6; }
+  }
+  @media (max-width: 600px) {
+    .kpi, .chart { grid-column: span 12; }
+    .wrap { padding: 20px 16px 60px; }
+  }
+
+  body.tv .wrap { max-width: 1920px; padding: 48px; }
+  body.tv .kpi .value { font-size: 64px; }
+  body.tv header.hero h1 { font-size: 72px; }
+
+  .skeleton { background: linear-gradient(90deg, var(--line) 0%, color-mix(in oklch, var(--line) 60%, var(--paper)) 50%, var(--line) 100%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; border-radius: 8px; height: 40px; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <div class="sub mono" id="countdown">—</div>
+      <h1 id="nome-lancamento">Carregando…</h1>
+    </div>
+    <div class="status ok" id="status-geral">AGUARDE</div>
+  </header>
+
+  <section class="grid">
+    <div class="card kpi"><div class="label">Inscritos</div><div class="value mono" id="k-inscritos">—</div><div class="meta" id="k-meta">—</div><div class="bar"><div id="k-bar" style="width:0%"></div></div></div>
+    <div class="card kpi"><div class="label">Receita total</div><div class="value mono" id="k-receita">—</div><div class="meta" id="k-receita-meta">—</div></div>
+    <div class="card kpi"><div class="label">OB-attach</div><div class="value mono" id="k-ob">—</div><div class="meta" id="k-ob-meta">—</div></div>
+    <div class="card kpi"><div class="label">Velocidade</div><div class="value mono" id="k-vph">—</div><div class="meta" id="k-vph-meta">vendas/h (6h)</div></div>
+
+    <div class="card chart"><h3>Receita por dia</h3><canvas id="chart-dia"></canvas></div>
+    <div class="card chart"><h3>Mix de receita</h3><canvas id="chart-mix"></canvas></div>
+    <div class="card chart"><h3>Ingressos por dia</h3><canvas id="chart-ingressos"></canvas></div>
+    <div class="card chart"><h3>Forma de pagamento</h3><canvas id="chart-pag"></canvas></div>
+
+    <div class="gatilhos" id="gatilhos"></div>
+    <div class="insights"><h3>Leitura do dia</h3><ul id="insights"><li class="skeleton" style="list-style:none"></li></ul></div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const WORKER_URL = "https://SEU-WORKER.workers.dev";
+  const REFRESH_MS = 5 * 60 * 1000;
+  const params = new URLSearchParams(location.search);
+  if (params.get("mode") === "tv") document.body.classList.add("tv");
+  const theme = params.get("theme") || (new Date().getHours() >= 19 || new Date().getHours() < 7 ? "dark" : "light");
+  document.documentElement.dataset.theme = theme;
+
+  const fmtBRL = n => (n || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+  const fmtPct = n => `${Math.round((n || 0) * 100)}%`;
+  const charts = {};
+
+  async function tick() {
+    try {
+      const [agg, ins] = await Promise.all([
+        fetch(WORKER_URL + "/").then(r => r.json()),
+        fetch(WORKER_URL + "/insights").then(r => r.json()).catch(() => ({ bullets: [] })),
+      ]);
+      render(agg, ins);
+    } catch (e) { console.error(e); }
+  }
+
+  function render(agg, ins) {
+    const { kpis = {}, series = {}, forecast = {}, gatilhos = [], lancamento, meta } = agg;
+    document.getElementById("nome-lancamento").textContent = lancamento || "Lançamento";
+    document.getElementById("countdown").textContent = forecast?.horas_restantes != null ? `${forecast.horas_restantes}h restantes` : "—";
+
+    const pctMeta = kpis.progresso_meta || 0;
+    document.getElementById("k-inscritos").textContent = kpis.inscritos ?? 0;
+    document.getElementById("k-meta").textContent      = `meta ${meta || "—"} · ${fmtPct(pctMeta)}`;
+    document.getElementById("k-bar").style.width       = Math.min(100, pctMeta * 100) + "%";
+    document.getElementById("k-receita").textContent   = fmtBRL(kpis.receita_total);
+    document.getElementById("k-receita-meta").textContent = `OB ${fmtBRL(kpis.receita_ob)} · ${fmtPct(kpis.pct_ob_do_total)}`;
+    document.getElementById("k-ob").textContent        = fmtPct(kpis.ob_attach_rate);
+    document.getElementById("k-ob-meta").textContent   = `${kpis.compradores_com_ob || 0} compradores c/ OB`;
+    document.getElementById("k-vph").textContent       = (kpis.velocidade_vph || 0).toFixed(1);
+
+    const status = gatilhos.find(g => g.status === "vermelho") ? { cls: "bad",  txt: "REQUER AÇÃO" }
+                 : gatilhos.find(g => g.status === "amarelo")  ? { cls: "warn", txt: "ATENÇÃO" }
+                 : { cls: "ok", txt: (kpis.velocidade_vph || 0) > 2 ? "ACELERANDO" : "ESTÁVEL" };
+    const s = document.getElementById("status-geral");
+    s.className = "status " + status.cls;
+    s.textContent = status.txt;
+
+    renderDia(series.por_dia || []);
+    renderMix(kpis);
+    renderIngressos(series.por_dia || []);
+    renderPag(series.por_pagamento || {});
+    renderGatilhos(gatilhos);
+    renderInsights(ins?.bullets || []);
+  }
+
+  function chartOpts(extra = {}) {
+    const ink = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim();
+    return { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: ink, font: { family: "Inter" } } } },
+      scales: { x: { ticks: { color: ink } }, y: { ticks: { color: ink } } },
+      ...extra };
+  }
+
+  function renderDia(dias) {
+    const ctx = document.getElementById("chart-dia");
+    charts.dia?.destroy();
+    charts.dia = new Chart(ctx, {
+      type: "bar",
+      data: { labels: dias.map(d => d.dia),
+        datasets: [
+          { label: "Principal", data: dias.map(d => d.principal), backgroundColor: "oklch(0.22 0.03 250)" },
+          { label: "Orderbumps", data: dias.map(d => d.orderbump), backgroundColor: "oklch(0.72 0.18 55)" },
+        ] },
+      options: chartOpts({ scales: { x: { stacked: true }, y: { stacked: true } } }),
+    });
+  }
+
+  function renderMix(k) {
+    const ctx = document.getElementById("chart-mix");
+    charts.mix?.destroy();
+    charts.mix = new Chart(ctx, {
+      type: "doughnut",
+      data: { labels: ["Principal", "Orderbumps"],
+        datasets: [{ data: [k.receita_principal || 0, k.receita_ob || 0], backgroundColor: ["oklch(0.22 0.03 250)", "oklch(0.72 0.18 55)"] }] },
+      options: chartOpts({ scales: {} }),
+    });
+  }
+
+  function renderIngressos(dias) {
+    const ctx = document.getElementById("chart-ingressos");
+    let acc = 0; const acumulado = dias.map(d => acc += d.count);
+    charts.ing?.destroy();
+    charts.ing = new Chart(ctx, {
+      data: { labels: dias.map(d => d.dia),
+        datasets: [
+          { type: "bar",  label: "Por dia",   data: dias.map(d => d.count), backgroundColor: "oklch(0.78 0.12 165)", yAxisID: "y" },
+          { type: "line", label: "Acumulado", data: acumulado, borderColor: "oklch(0.22 0.03 250)", yAxisID: "y1", tension: 0.3 },
+        ] },
+      options: chartOpts({ scales: { y: { position: "left" }, y1: { position: "right", grid: { drawOnChartArea: false } } } }),
+    });
+  }
+
+  function renderPag(map) {
+    const ctx = document.getElementById("chart-pag");
+    charts.pag?.destroy();
+    charts.pag = new Chart(ctx, {
+      type: "doughnut",
+      data: { labels: Object.keys(map), datasets: [{ data: Object.values(map),
+        backgroundColor: ["oklch(0.78 0.12 165)", "oklch(0.72 0.18 55)", "oklch(0.65 0.20 25)", "oklch(0.55 0.02 250)"] }] },
+      options: chartOpts({ scales: {} }),
+    });
+  }
+
+  function renderGatilhos(list) {
+    const wrap = document.getElementById("gatilhos");
+    wrap.innerHTML = list.map(g => `
+      <div class="gat ${g.status}">
+        <div class="tag">${g.data}</div>
+        <div class="mono" style="font-size:20px;margin:6px 0;">Mín. ${g.minimo}</div>
+        <div style="font-size:13px;color:var(--muted);">${g.acao || ""}</div>
+      </div>`).join("");
+  }
+
+  function renderInsights(bullets) {
+    const el = document.getElementById("insights");
+    el.innerHTML = bullets.length ? bullets.map(b => `<li>${b}</li>`).join("") : "<li>Aguardando dados suficientes…</li>";
+  }
+
+  tick();
+  setInterval(tick, REFRESH_MS);
+})();
+</script>
+</body>
+</html>

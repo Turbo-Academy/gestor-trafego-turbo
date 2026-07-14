@@ -1,0 +1,19 @@
+name = "turbo-dash-CLIENTE-LANCAMENTO"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "turbo-CLIENTE"
+database_id   = "PREENCHER-APOS-CRIAR-D1"
+
+[vars]
+CLIENTE_ID       = "leo-turbo"
+LANCAMENTO_ID    = "funil-8-2026-04"
+# Secrets (usar `wrangler secret put`):
+#   ALERT_WEBHOOK_URL  — Slack/Discord/WhatsApp webhook
+#   EXPORT_TOKEN       — bearer para /export.csv
+#   CLAUDE_API_KEY     — opcional, para /insights narrativo
+
+[triggers]
+crons = ["59 23 * * *"]  # snapshot diário 23:59 UTC

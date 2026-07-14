@@ -1,0 +1,43 @@
+{
+  "cliente_id": "leo-turbo",
+  "lancamento_id": "funil-8-2026-04",
+  "nome_lancamento": "Funil 8 — Turma Abril",
+  "plataforma": "guru",
+  "meta_inscritos": 300,
+  "data_inicio": "2026-04-10T00:00:00Z",
+  "data_fim":    "2026-04-17T23:59:00Z",
+  "lote_ativo": { "nome": "Lote 2", "preco": 497 },
+  "produtos": [
+    { "match": ["imersão", "imersao"], "tipo": "principal",  "id": "imersao" },
+    { "match": ["gravação", "gravacao"], "tipo": "orderbump", "id": "gravacao" },
+    { "match": ["e-book", "ebook"],      "tipo": "orderbump", "id": "ebook" },
+    { "match": ["funis"],                "tipo": "orderbump", "id": "funis" }
+  ],
+  "gatilhos": [
+    { "data": "2026-04-14", "minimo": 120, "acao": "Ativar lista morna + story diário" },
+    { "data": "2026-04-16", "minimo": 220, "acao": "CPL bônus + WhatsApp em massa" }
+  ],
+  "paleta": {
+    "primary": "oklch(0.22 0.03 250)",
+    "accent":  "oklch(0.72 0.18 55)",
+    "mint":    "oklch(0.78 0.12 165)",
+    "alert":   "oklch(0.65 0.20 25)",
+    "paper":   "oklch(0.98 0.01 90)",
+    "ink":     "oklch(0.18 0.01 250)"
+  },
+  "tipografia": {
+    "display": "DM Serif Display",
+    "mono":    "JetBrains Mono",
+    "sans":    "Inter"
+  },
+  "alertas": {
+    "webhook_url": "https://hooks.slack.com/services/XXX/YYY/ZZZ",
+    "ob_attach_minimo": 0.30,
+    "queda_velocidade_pct": 0.40
+  },
+  "forecast": {
+    "min_vendas_para_exibir": 20,
+    "min_horas_para_exibir": 6,
+    "janela_velocidade_horas": 6
+  }
+}
