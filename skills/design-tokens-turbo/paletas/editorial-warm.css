@@ -1,0 +1,77 @@
+/* ============================================================
+   PALETA: editorial-warm
+   Vibe: paper / serif / quente (revista, mentor autoral)
+   Uso: conteúdo longo, posicionamento, brandbook autoral
+   ============================================================ */
+
+:root, [data-theme="light"] {
+  /* Brand (terracota / âmbar) */
+  --brand-50:  oklch(97% 0.02 50);
+  --brand-100: oklch(93% 0.05 50);
+  --brand-200: oklch(86% 0.10 50);
+  --brand-300: oklch(78% 0.14 45);
+  --brand-400: oklch(68% 0.16 40);
+  --brand-500: oklch(58% 0.18 35);   /* primary */
+  --brand-600: oklch(50% 0.18 30);
+  --brand-700: oklch(42% 0.16 28);
+  --brand-800: oklch(34% 0.13 28);
+  --brand-900: oklch(26% 0.10 28);
+
+  /* Neutros (paper warm) */
+  --gray-50:  oklch(97% 0.012 75);   /* paper */
+  --gray-100: oklch(94% 0.015 75);
+  --gray-200: oklch(89% 0.015 70);
+  --gray-300: oklch(82% 0.013 65);
+  --gray-400: oklch(70% 0.012 60);
+  --gray-500: oklch(56% 0.010 55);
+  --gray-600: oklch(44% 0.010 50);
+  --gray-700: oklch(34% 0.012 45);
+  --gray-800: oklch(24% 0.012 40);
+  --gray-900: oklch(16% 0.010 35);
+  --gray-950: oklch(10% 0.008 30);
+
+  /* Semânticas */
+  --success: oklch(58% 0.14 145);
+  --warning: oklch(72% 0.16 80);
+  --danger:  oklch(55% 0.20 25);
+  --info:    oklch(60% 0.14 220);
+
+  /* Tokens semânticos */
+  --bg:           oklch(96% 0.015 75);  /* paper */
+  --bg-elevated:  oklch(98% 0.010 75);
+  --bg-muted:     var(--gray-100);
+  --bg-inverse:   var(--gray-900);
+
+  --fg:           var(--gray-900);
+  --fg-muted:     var(--gray-700);
+  --fg-subtle:    var(--gray-500);
+  --fg-inverse:   var(--gray-50);
+
+  --border:       var(--gray-200);
+  --border-strong: var(--gray-300);
+  --ring:         var(--brand-500);
+
+  --accent:       var(--brand-600);
+  --accent-hover: var(--brand-700);
+  --accent-fg:    var(--gray-50);
+
+  /* Override tipografia: serif protagoniza */
+  --font-display: var(--font-serif);
+}
+
+[data-theme="dark"] {
+  --bg:           oklch(15% 0.012 35);
+  --bg-elevated:  oklch(20% 0.014 35);
+  --bg-muted:     oklch(25% 0.014 35);
+  --bg-inverse:   var(--gray-50);
+
+  --fg:           oklch(94% 0.015 70);
+  --fg-muted:     var(--gray-300);
+  --fg-subtle:    var(--gray-400);
+
+  --border:       oklch(28% 0.014 35);
+  --border-strong: oklch(35% 0.014 35);
+
+  --accent:       var(--brand-400);
+  --accent-hover: var(--brand-300);
+}

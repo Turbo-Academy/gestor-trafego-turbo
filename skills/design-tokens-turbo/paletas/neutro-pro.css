@@ -1,0 +1,75 @@
+/* ============================================================
+   PALETA: neutro-pro
+   Vibe: SaaS clean (Linear / Vercel / Stripe)
+   Uso: produto, dashboard, B2B sério, mentorias high-ticket
+   ============================================================ */
+
+:root, [data-theme="light"] {
+  /* Brand (azul-violeta refinado) */
+  --brand-50:  oklch(97% 0.02 270);
+  --brand-100: oklch(94% 0.04 270);
+  --brand-200: oklch(88% 0.08 270);
+  --brand-300: oklch(80% 0.12 270);
+  --brand-400: oklch(70% 0.16 270);
+  --brand-500: oklch(60% 0.20 270);   /* primary */
+  --brand-600: oklch(52% 0.22 270);
+  --brand-700: oklch(44% 0.20 270);
+  --brand-800: oklch(36% 0.16 270);
+  --brand-900: oklch(28% 0.12 270);
+
+  /* Neutros (slate quente) */
+  --gray-50:  oklch(98.5% 0.005 250);
+  --gray-100: oklch(96% 0.008 250);
+  --gray-200: oklch(92% 0.010 250);
+  --gray-300: oklch(86% 0.012 250);
+  --gray-400: oklch(72% 0.014 250);
+  --gray-500: oklch(58% 0.014 250);
+  --gray-600: oklch(46% 0.014 250);
+  --gray-700: oklch(36% 0.012 250);
+  --gray-800: oklch(26% 0.010 250);
+  --gray-900: oklch(18% 0.008 250);
+  --gray-950: oklch(12% 0.006 250);
+
+  /* Semânticas */
+  --success: oklch(65% 0.16 155);
+  --warning: oklch(75% 0.16 75);
+  --danger:  oklch(60% 0.22 25);
+  --info:    oklch(65% 0.14 230);
+
+  /* Tokens semânticos (use estes nos componentes) */
+  --bg:           var(--gray-50);
+  --bg-elevated:  #ffffff;
+  --bg-muted:     var(--gray-100);
+  --bg-inverse:   var(--gray-900);
+
+  --fg:           var(--gray-900);
+  --fg-muted:     var(--gray-600);
+  --fg-subtle:    var(--gray-500);
+  --fg-inverse:   var(--gray-50);
+
+  --border:       var(--gray-200);
+  --border-strong: var(--gray-300);
+  --ring:         var(--brand-500);
+
+  --accent:       var(--brand-500);
+  --accent-hover: var(--brand-600);
+  --accent-fg:    #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg:           var(--gray-950);
+  --bg-elevated:  var(--gray-900);
+  --bg-muted:     var(--gray-800);
+  --bg-inverse:   var(--gray-50);
+
+  --fg:           var(--gray-50);
+  --fg-muted:     var(--gray-300);
+  --fg-subtle:    var(--gray-400);
+  --fg-inverse:   var(--gray-900);
+
+  --border:       var(--gray-800);
+  --border-strong: var(--gray-700);
+
+  --accent:       var(--brand-400);
+  --accent-hover: var(--brand-300);
+}

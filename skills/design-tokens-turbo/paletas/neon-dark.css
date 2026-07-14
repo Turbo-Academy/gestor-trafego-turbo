@@ -1,0 +1,92 @@
+/* ============================================================
+   PALETA: neon-dark
+   Vibe: Demo B (orange + purple, dark glass)
+   Uso: lançamento, evento, oferta agressiva, alta energia
+   ============================================================ */
+
+:root, [data-theme="dark"] {
+  /* Brand primário (orange neon) */
+  --brand-50:  oklch(97% 0.03 50);
+  --brand-100: oklch(92% 0.07 50);
+  --brand-200: oklch(85% 0.13 45);
+  --brand-300: oklch(78% 0.17 42);
+  --brand-400: oklch(72% 0.20 40);
+  --brand-500: oklch(70% 0.20 38);   /* primary — #FF8A3D vibe */
+  --brand-600: oklch(62% 0.22 32);
+  --brand-700: oklch(54% 0.22 30);
+  --brand-800: oklch(44% 0.20 28);
+  --brand-900: oklch(34% 0.16 28);
+
+  /* Brand secundário (purple) */
+  --accent2-300: oklch(82% 0.12 290);
+  --accent2-400: oklch(75% 0.16 290);
+  --accent2-500: oklch(70% 0.18 285);  /* #A78BFA vibe */
+  --accent2-600: oklch(60% 0.20 280);
+  --accent2-700: oklch(50% 0.22 280);
+
+  /* Neutros (dark cool) */
+  --gray-50:  oklch(98% 0.005 270);
+  --gray-100: oklch(94% 0.008 270);
+  --gray-200: oklch(86% 0.012 270);
+  --gray-300: oklch(72% 0.014 270);
+  --gray-400: oklch(58% 0.016 270);
+  --gray-500: oklch(46% 0.016 270);
+  --gray-600: oklch(36% 0.014 270);
+  --gray-700: oklch(26% 0.012 270);
+  --gray-800: oklch(18% 0.010 270);
+  --gray-900: oklch(12% 0.008 270);
+  --gray-950: oklch(7% 0.008 270);    /* #0A0A0F vibe */
+
+  /* Semânticas */
+  --success: oklch(72% 0.18 150);
+  --warning: oklch(80% 0.18 75);
+  --danger:  oklch(65% 0.24 22);
+  --info:    var(--accent2-500);
+
+  /* Tokens semânticos (DARK como default) */
+  --bg:           var(--gray-950);
+  --bg-elevated:  var(--gray-900);
+  --bg-muted:     var(--gray-800);
+  --bg-glass:     oklch(12% 0.008 270 / 0.6);  /* para glassmorphism */
+  --bg-inverse:   var(--gray-50);
+
+  --fg:           var(--gray-50);
+  --fg-muted:     var(--gray-300);
+  --fg-subtle:    var(--gray-400);
+  --fg-inverse:   var(--gray-950);
+
+  --border:       oklch(20% 0.012 270 / 0.8);
+  --border-strong: oklch(30% 0.014 270 / 0.9);
+  --ring:         var(--brand-500);
+
+  --accent:       var(--brand-500);
+  --accent-hover: var(--brand-400);
+  --accent-fg:    var(--gray-950);
+  --accent-2:     var(--accent2-500);
+
+  /* Gradiente assinatura (orange → purple) */
+  --gradient-brand: linear-gradient(135deg,
+    var(--brand-500) 0%,
+    oklch(65% 0.24 22) 50%,
+    var(--accent2-500) 100%);
+  --gradient-glow: radial-gradient(circle at var(--x, 50%) var(--y, 0%),
+    oklch(70% 0.20 38 / 0.18),
+    transparent 40%);
+
+  /* Shadow override (glow neon) */
+  --shadow-glow: 0 0 60px -10px var(--brand-500);
+  --shadow-glow-purple: 0 0 60px -10px var(--accent2-500);
+}
+
+[data-theme="light"] {
+  /* Versão clara (raramente usada nessa paleta — mantida para fallback) */
+  --bg:           var(--gray-50);
+  --bg-elevated:  #ffffff;
+  --bg-muted:     var(--gray-100);
+  --fg:           var(--gray-900);
+  --fg-muted:     var(--gray-600);
+  --fg-subtle:    var(--gray-500);
+  --border:       var(--gray-200);
+  --accent:       var(--brand-600);
+  --accent-fg:    #ffffff;
+}

@@ -1,0 +1,48 @@
+/* Tokens EMB — copie design-tokens-emb/ para tokens/ neste projeto */
+@import '../tokens/tokens.css';
+@import '../tokens/paletas/neon-dark.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); }
+  ::selection { background: var(--accent); color: var(--accent-fg); }
+}
+
+@layer utilities {
+  .glass {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border);
+  }
+  .text-gradient {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .glow-hover {
+    position: relative;
+    overflow: hidden;
+  }
+  .glow-hover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gradient-glow);
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+    pointer-events: none;
+  }
+  .glow-hover:hover::before { opacity: 1; }
+}
+
+@keyframes shift {
+  0%,100% { background-position: 0% 50%; }
+  50%     { background-position: 100% 50%; }
+}
+.animate-shift { background-size: 200% 200%; animation: shift 8s ease infinite; }

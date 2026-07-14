@@ -1,6 +1,6 @@
 # Gestor de Tráfego Turbo
 
-Agente de tráfego pago para Claude Code, com as 13 skills que ele usa no dia a dia. Meta Ads e Google Ads para lançamento pago semanal, funil de entrada low-ticket e distribuição de conteúdo.
+Agente de tráfego pago para Claude Code, com as 16 skills que ele usa no dia a dia. Meta Ads e Google Ads para lançamento pago semanal, funil de entrada low-ticket e distribuição de conteúdo.
 
 Este pacote roda sozinho. Você não precisa do Squad Turbo completo para usar.
 
@@ -14,7 +14,7 @@ Este pacote roda sozinho. Você não precisa do Squad Turbo completo para usar.
 - Orçamento calculado de trás pra frente (meta de inscritos × CPA-alvo)
 - Campanha ASC do funil de entrada e campanhas de impulsionamento/remarketing de consciência
 
-**13 skills** (`skills/`):
+**16 skills** (`skills/`):
 
 | Skill | Pra quê |
 |---|---|
@@ -31,6 +31,9 @@ Este pacote roda sozinho. Você não precisa do Squad Turbo completo para usar.
 | `dashboard-lpsg-turbo` | Dashboard de acompanhamento do lançamento |
 | `dash-lancamento-turbo` | Painel de vendas ao vivo |
 | `protocolo-conversa-turbo` | Protocolo de conversa do agente (carregada sempre primeiro) |
+| `design-tokens-turbo` | Tokens visuais usados pelos dashboards (tipografia, paleta) |
+| `lovable-style-turbo` | Estilo de build das páginas e dashboards em React |
+| `designer-senior-turbo` | Implementação HTML das páginas de destino |
 
 ## Requisitos
 
@@ -80,8 +83,8 @@ Comandos rápidos do agente:
 Duas skills de terceiros deixam o agente mais completo (deploy e teste da página de destino):
 
 ```bash
-npx skills add vercel-labs/skills --skill deploy-to-vercel --yes
-npx skills add https://github.com/anthropics/skills --skill webapp-testing --yes
+npx skills add vercel-labs/agent-skills --skill deploy-to-vercel --yes
+npx skills add anthropics/skills --skill webapp-testing --yes
 ```
 
 O agente menciona outros agentes do Squad Turbo (revisor de copy, diretor criativo, estrategista). São referências de fluxo de trabalho: sem eles instalados, o agente segue funcionando normalmente e executa o trabalho de tráfego completo sozinho.
