@@ -3,238 +3,228 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gestor de Tráfego Turbo — tráfego pago dentro do Claude Code</title>
+<title>Gestor de Tráfego Turbo | tráfego pago dentro do Claude Code</title>
 <meta name="description" content="Agente de tráfego pago para Claude Code com 16 skills: Meta Ads com protocolo fixo de subida, diagnóstico e orçamento. Grátis no GitHub.">
 <meta property="og:title" content="Gestor de Tráfego Turbo">
 <meta property="og:description" content="Um gestor de tráfego pago que trabalha dentro do Claude Code. Grátis, aberto, 16 skills.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0A0A0A;
-    --paper:#F4F1EA;
-    --paper-dim:rgba(244,241,234,.62);
-    --paper-faint:rgba(244,241,234,.38);
-    --gold:#D4AF37;
-    --rule:rgba(244,241,234,.14);
-    --rule-strong:rgba(244,241,234,.28);
+    color-scheme:dark;
+    --bg:oklch(14.5% .019 248);
+    --panel:oklch(19.5% .025 248);
+    --panel-2:oklch(23% .03 248);
+    --ink:oklch(94% .014 82);
+    --muted:oklch(79% .026 82 / .82);
+    --faint:oklch(79% .026 82 / .55);
+    --line:oklch(88% .018 82 / .14);
+    --line-strong:oklch(88% .018 82 / .24);
+    --accent:oklch(72% .17 48);
+    --accent-2:oklch(71% .13 176);
+    --danger:oklch(67% .19 25);
+    --shadow:0 22px 70px oklch(4% .015 248 / .45);
+    --radius:8px;
   }
-  *{margin:0;padding:0;box-sizing:border-box}
+  *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
-    background:var(--ink);
-    color:var(--paper);
-    font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
-    font-size:17px;line-height:1.65;
-    -webkit-font-smoothing:antialiased;
+    margin:0;background:
+      radial-gradient(circle at 78% 10%, oklch(72% .17 48 / .13), transparent 26rem),
+      linear-gradient(135deg, oklch(12% .018 248), var(--bg) 48%, oklch(16% .025 210));
+    color:var(--ink);
+    font-family:"Sora",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:16px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   }
-  body::after{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.2;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image:linear-gradient(to bottom, oklch(0% 0 0), transparent 78%);
   }
-  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
-  em{font-style:italic}
   a{color:inherit}
-
-  /* ── masthead ─────────────────────────────── */
-  header{border-bottom:1px solid var(--rule-strong)}
-  .mast{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-dim)}
-  .mast b{color:var(--paper);font-weight:600}
-  .mast a{text-decoration:none;color:var(--gold)}
-
-  /* ── hero ─────────────────────────────────── */
-  .hero{padding:96px 0 72px;position:relative}
-  .kicker{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.08em;color:var(--gold);margin-bottom:28px}
-  h1{
-    font-family:"Instrument Serif",Georgia,serif;font-weight:400;
-    font-size:clamp(44px,7.2vw,86px);line-height:1.04;letter-spacing:-.01em;
-    max-width:16ch;
+  .wrap{width:min(1180px, calc(100% - 40px));margin-inline:auto}
+  .eyebrow,.metric span,.step,.cmd b,.terminal,.pill,.nav,.fine,footer{font-family:"Azeret Mono",ui-monospace,monospace}
+  header{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:oklch(14.5% .019 248 / .8);backdrop-filter:blur(18px)}
+  .nav{height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px;font-size:12px;letter-spacing:.04em}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600}
+  .mark{width:22px;height:22px;border:1px solid var(--accent);display:grid;place-items:center;color:var(--accent);font-size:12px}
+  .nav-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  .nav-links a{min-height:36px;display:inline-flex;align-items:center;padding:0 12px;border:1px solid transparent;text-decoration:none;color:var(--muted)}
+  .nav-links a:hover{border-color:var(--line-strong);color:var(--ink);background:oklch(100% 0 0 / .04)}
+  .hero{min-height:calc(100svh - 68px);display:grid;grid-template-columns:minmax(0, 1.03fr) minmax(320px, .97fr);gap:clamp(34px,5vw,76px);align-items:center;padding:clamp(54px,8vw,104px) 0}
+  .eyebrow{display:flex;gap:10px;align-items:center;color:var(--accent);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 24px}
+  .eyebrow::before{content:"";width:36px;height:1px;background:var(--accent)}
+  h1{margin:0;max-width:13ch;font-size:clamp(42px,6.7vw,86px);line-height:.98;letter-spacing:0;font-weight:800}
+  .hero-copy{margin:28px 0 0;max-width:62ch;color:var(--muted);font-size:clamp(17px,1.5vw,20px)}
+  .actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:36px}
+  .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 18px;border:1px solid var(--accent);background:var(--accent);color:oklch(16% .019 248);font-weight:700;text-decoration:none}
+  .btn:hover{background:transparent;color:var(--accent)}
+  .btn.secondary{background:transparent;border-color:var(--line-strong);color:var(--ink)}
+  .btn.secondary:hover{border-color:var(--accent-2);color:var(--accent-2)}
+  .console{position:relative;border:1px solid var(--line-strong);background:linear-gradient(180deg, var(--panel), oklch(16.5% .024 248));box-shadow:var(--shadow);overflow:hidden}
+  .console::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg, transparent, oklch(72% .17 48 / .08), transparent 56%);pointer-events:none}
+  .console-top{height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid var(--line);font-family:"Azeret Mono",monospace;font-size:11px;color:var(--faint)}
+  .lights{display:flex;gap:7px}.lights i{width:8px;height:8px;border-radius:50%;background:var(--line-strong)}.lights i:nth-child(2){background:var(--accent)}.lights i:nth-child(3){background:var(--accent-2)}
+  .protocol{padding:24px}
+  .query{padding:16px 18px;border:1px solid var(--line);background:oklch(100% 0 0 / .035);font-family:"Azeret Mono",monospace;font-size:13px;color:var(--muted)}
+  .flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+  .flow-item{min-height:112px;border:1px solid var(--line);background:oklch(100% 0 0 / .03);padding:16px}
+  .step{display:block;color:var(--accent-2);font-size:11px;margin-bottom:14px}
+  .flow-item strong{display:block;font-size:18px;line-height:1.2;margin-bottom:7px}
+  .flow-item p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+  .status{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding:14px 16px;border:1px solid oklch(67% .19 25 / .42);background:oklch(67% .19 25 / .08);font-size:13px}
+  .status b{color:var(--danger)}
+  .metrics{border-block:1px solid var(--line-strong);background:oklch(100% 0 0 / .025)}
+  .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .metric{padding:30px clamp(16px,3vw,30px);border-left:1px solid var(--line)}
+  .metric:first-child{border-left:0}
+  .metric b{display:block;font-size:clamp(34px,4.5vw,58px);line-height:1;font-weight:800;color:var(--accent)}
+  .metric span{display:block;margin-top:10px;color:var(--muted);font-size:12px;line-height:1.35}
+  section{padding:clamp(72px,10vw,126px) 0}
+  .section-head{display:grid;grid-template-columns:minmax(220px,.42fr) minmax(0,1fr);gap:clamp(22px,5vw,70px);align-items:start;margin-bottom:42px}
+  .section-head h2{margin:0;max-width:18ch;font-size:clamp(32px,5.2vw,64px);line-height:1.02;letter-spacing:0}
+  .section-head p{margin:8px 0 0;color:var(--muted);max-width:62ch}
+  .ledger{border-top:1px solid var(--line-strong)}
+  .row{display:grid;grid-template-columns:74px minmax(180px,280px) minmax(0,1fr);gap:clamp(18px,4vw,46px);padding:30px 0;border-bottom:1px solid var(--line);align-items:start}
+  .idx{font-family:"Azeret Mono",monospace;color:var(--accent-2);font-size:12px}
+  h3{margin:0;font-size:clamp(20px,2.2vw,28px);line-height:1.15}
+  .row p{margin:0;color:var(--muted);max-width:72ch}
+  .row b,.method-note b,.after b{color:var(--ink);font-weight:700}
+  .cmd-zone{background:linear-gradient(180deg, transparent, oklch(100% 0 0 / .025))}
+  .cmds{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--line-strong);border:1px solid var(--line-strong);margin-top:34px}
+  .cmd{min-height:142px;padding:20px;background:var(--bg)}
+  .cmd b{display:block;color:var(--accent);font-size:13px;line-height:1.35;margin-bottom:12px;overflow-wrap:anywhere}
+  .cmd span{display:block;color:var(--muted);font-size:14px;line-height:1.45}
+  .method-note{max-width:76ch;margin:28px 0 0;color:var(--muted)}
+  .install{background:oklch(92% .018 83);color:oklch(18% .026 248)}
+  .install .eyebrow,.install .step{color:oklch(54% .13 48)}
+  .install .section-head p,.install .after{color:oklch(33% .025 248 / .76)}
+  .install h2,.install b{color:oklch(18% .026 248)}
+  .install-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(320px,1.1fr);gap:clamp(28px,5vw,70px);align-items:start}
+  .terminal{border:1px solid oklch(18% .026 248 / .18);background:oklch(16% .026 248);color:oklch(92% .018 83);padding:24px;overflow:auto;box-shadow:0 24px 64px oklch(18% .026 248 / .22);font-size:13px;line-height:1.9}
+  .terminal .c{color:oklch(92% .018 83 / .46)}.terminal .g{color:oklch(72% .17 48)}
+  .after{margin:22px 0 0}
+  .cta-final{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:end;padding:clamp(76px,10vw,128px) 0}
+  .cta-final h2{margin:0;max-width:18ch;font-size:clamp(34px,5.8vw,72px);line-height:1.02}
+  .fine{margin:22px 0 0;color:var(--muted);font-size:12px;max-width:74ch}
+  footer{border-top:1px solid var(--line);padding:28px 0 42px;color:var(--faint);font-size:12px}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{text-decoration:none;color:var(--muted)}
+  :focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+  .hero-text,.console,.metric,.row,.cmd,.install-grid,.cta-final{animation:rise .7s cubic-bezier(.22,1,.36,1) both}
+  .console{animation-delay:.08s}.metric:nth-child(2){animation-delay:.04s}.metric:nth-child(3){animation-delay:.08s}.metric:nth-child(4){animation-delay:.12s}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  @media (max-width:920px){
+    .hero,.install-grid,.cta-final{grid-template-columns:1fr}
+    .hero{min-height:auto}
+    .metrics-grid{grid-template-columns:repeat(2,1fr)}
+    .metric:nth-child(3){border-left:0;border-top:1px solid var(--line)}
+    .metric:nth-child(4){border-top:1px solid var(--line)}
+    .section-head{grid-template-columns:1fr}
   }
-  h1 .gold{color:var(--gold)}
-  .hero p.dek{
-    margin-top:34px;max-width:52ch;font-size:19px;line-height:1.6;color:var(--paper-dim);
-  }
-  .hero-cta{margin-top:44px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
-  .btn{
-    display:inline-block;text-decoration:none;
-    font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:.02em;
-    padding:16px 28px;border:1px solid var(--gold);color:var(--ink);background:var(--gold);
-    transition:background .18s ease,color .18s ease;
-  }
-  .btn:hover{background:transparent;color:var(--gold)}
-  .btn:active{transform:scale(.98)}
-  a:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  .install a:focus-visible{outline-color:var(--ink)}
-  /* ── números ──────────────────────────────── */
-  .numbers{border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong)}
-  .numbers .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
-  .num{padding:34px 20px 30px;border-left:1px solid var(--rule)}
-  .num:first-child{border-left:none;padding-left:0}
-  .num b{display:block;font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:52px;line-height:1;color:var(--gold)}
-  .num span{display:block;margin-top:10px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim)}
-
-  /* ── seções ───────────────────────────────── */
-  section{padding:88px 0}
-  .sec-label{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
-  h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(30px,4vw,44px);line-height:1.15;max-width:26ch}
-
-  /* entregáveis — lista editorial */
-  .ledger{margin-top:56px;border-top:1px solid var(--rule-strong)}
-  .row{
-    display:grid;grid-template-columns:64px 240px 1fr;gap:28px;
-    padding:26px 0;border-bottom:1px solid var(--rule);align-items:baseline;
-  }
-  .row .idx{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--paper-faint)}
-  .row h3{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:23px;line-height:1.25}
-  .row p{color:var(--paper-dim);font-size:15.5px;max-width:58ch}
-  .row p b{color:var(--paper);font-weight:500}
-
-  /* comandos — grid mono */
-  .cmds{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--rule-strong)}
-  .cmd{padding:22px 18px 26px;border-left:1px solid var(--rule);min-height:130px}
-  .cmd:first-child,.cmd:nth-child(5){border-left:none}
-  .cmd:nth-child(n+5){border-top:1px solid var(--rule)}
-  .cmd b{display:block;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:14px;color:var(--gold);margin-bottom:8px}
-  .cmd span{font-size:13px;line-height:1.5;color:var(--paper-dim)}
-  .method-note{margin-top:26px;color:var(--paper-dim);font-size:15.5px;max-width:64ch}
-  .method-note b{color:var(--paper);font-weight:500}
-
-  /* instalar */
-  .install{background:var(--paper);color:var(--ink)}
-  .install .sec-label{color:#8a6d1c}
-  .install h2{color:var(--ink)}
-  .install p.lead{margin-top:20px;color:rgba(10,10,10,.65);max-width:56ch;font-size:16.5px}
-  .terminal{
-    margin-top:44px;background:var(--ink);color:var(--paper);
-    font-family:"JetBrains Mono",monospace;font-size:14px;line-height:1.9;
-    padding:28px 30px;overflow-x:auto;
-  }
-  .terminal .c{color:rgba(244,241,234,.4)}
-  .terminal .g{color:var(--gold)}
-  .install .after{margin-top:28px;font-size:15px;color:rgba(10,10,10,.65)}
-  .install .after a{color:var(--ink);font-weight:500}
-
-  /* CTA final */
-  .cta-final{text-align:left;padding:110px 0 120px}
-  .cta-final h2{max-width:28ch}
-  .cta-final .hero-cta{margin-top:40px}
-  .fine{margin-top:30px;font-size:13.5px;color:var(--paper-dim);max-width:60ch}
-  .fine a{color:var(--paper)}
-
-  footer{border-top:1px solid var(--rule-strong);padding:30px 0 44px;font-size:12.5px;letter-spacing:.06em;color:var(--paper-dim)}
-  footer a{color:var(--paper-dim);text-decoration:none}
-  footer a:hover{color:var(--gold)}
-
-  /* reveal on load */
-  .hero > *{opacity:0;transform:translateY(14px);animation:up .55s cubic-bezier(.32,.72,0,1) forwards}
-  .hero .kicker{animation-delay:.05s}
-  .hero h1{animation-delay:.15s}
-  .hero p.dek{animation-delay:.3s}
-  .hero .hero-cta{animation-delay:.45s}
-  @keyframes up{to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){.hero>*{animation:none;opacity:1;transform:none}}
-
-  @media (max-width:900px){
-    .numbers .wrap{grid-template-columns:repeat(2,1fr)}
-    .num:nth-child(3){border-left:none;padding-left:0}
-    .num{border-top:1px solid var(--rule)}
-    .num:nth-child(-n+2){border-top:none}
-    .cmds{grid-template-columns:1fr 1fr}
-    .cmd{border-left:1px solid var(--rule)}
-    .cmd:nth-child(odd){border-left:none}
-    .cmd:nth-child(n+3){border-top:1px solid var(--rule)}
-  }
-  @media (max-width:680px){
-    .row{grid-template-columns:1fr;gap:8px;padding:22px 0}
-    .row .idx{display:none}
-    .cmds{grid-template-columns:1fr}
-    .cmd{border-left:none!important}
-    .cmd:nth-child(n+2){border-top:1px solid var(--rule)}
-    section{padding:64px 0}
-    .hero{padding:64px 0 56px}
+  @media (max-width:640px){
+    .wrap{width:min(100% - 28px,1180px)}
+    .nav{height:auto;min-height:64px;align-items:flex-start;padding:14px 0;flex-direction:column}
+    h1{font-size:clamp(40px,12vw,62px)}
+    .flow,.metrics-grid{grid-template-columns:1fr}
+    .metric{border-left:0;border-top:1px solid var(--line)}
+    .metric:first-child{border-top:0}
+    .row{grid-template-columns:1fr;gap:10px}
+    .idx{color:var(--faint)}
+    .status{align-items:flex-start;flex-direction:column}
   }
 </style>
 </head>
 <body>
-
 <header>
-  <div class="wrap mast">
-    <div><b>Gestor de Tráfego Turbo</b></div>
-    <div style="display:flex;gap:22px">
-      <a href="claro/" style="color:var(--paper-dim)">Fundo claro</a>
-      <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub ↗</a>
+  <nav class="wrap nav" aria-label="Navegação principal">
+    <a class="brand" href="#"><span class="mark">T</span><span>Gestor de Tráfego Turbo</span></a>
+    <div class="nav-links">
+      <a href="#oquefaz">Protocolo</a>
+      <a href="#comandos">Comandos</a>
+      <a href="#instalar">Instalar</a>
+      <a href="claro/">Fundo claro</a>
+      <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub</a>
     </div>
-  </div>
+  </nav>
 </header>
 
 <main>
-  <div class="wrap hero">
-    <p class="kicker">Turbo Academy · agente para Claude Code · grátis</p>
-    <h1>Um gestor de tráfego que trabalha <span class="gold">dentro do Claude&nbsp;Code.</span></h1>
-    <p class="dek">Meta Ads com protocolo fixo: ele pede os 4 inputs, calcula o CAC ideal, estrutura Cost Cap e ROAS incremental, diagnostica métrica por métrica e monta o orçamento de trás pra frente. Você aprova. Ele executa.</p>
-    <div class="hero-cta">
-      <a class="btn" href="https://github.com/Turbo-Academy/gestor-trafego-turbo">Ver no GitHub</a>
+  <section class="wrap hero">
+    <div class="hero-text">
+      <p class="eyebrow">Turbo Academy · agente para Claude Code · grátis</p>
+      <h1>Tráfego pago com protocolo, dentro do Claude Code.</h1>
+      <p class="hero-copy">Meta Ads sem improviso: ele pede os 4 inputs, calcula o CAC ideal, estrutura Cost Cap e ROAS incremental, diagnostica métrica por métrica e monta o orçamento de trás pra frente. Você aprova. Ele executa.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/Turbo-Academy/gestor-trafego-turbo">Ver no GitHub</a>
+        <a class="btn secondary" href="#instalar">Instalar agora</a>
+      </div>
     </div>
-  </div>
 
-  <div class="numbers">
-    <div class="wrap">
-      <div class="num"><b>16</b><span>skills incluídas</span></div>
-      <div class="num"><b>4</b><span>inputs antes de subir</span></div>
-      <div class="num"><b>15</b><span>criativos por batelada</span></div>
-      <div class="num"><b>1</b><span>variável por teste</span></div>
+    <div class="console" aria-label="Resumo visual do protocolo do agente">
+      <div class="console-top"><div class="lights"><i></i><i></i><i></i></div><span>trafego-turbo / plano-de-subida</span></div>
+      <div class="protocol">
+        <div class="query">Use o agente trafego-turbo para estruturar minhas campanhas</div>
+        <div class="flow">
+          <div class="flow-item"><span class="step">01 / gate</span><strong>4 inputs antes de subir</strong><p>Ticket, conversão, preço do principal e ROAS desejado.</p></div>
+          <div class="flow-item"><span class="step">02 / cálculo</span><strong>CAC ideal e verba</strong><p>Meta de inscritos, CPA-alvo e orçamento da semana.</p></div>
+          <div class="flow-item"><span class="step">03 / estrutura</span><strong>Cost Cap + ROAS</strong><p>Campanhas separadas para controle e escala incremental.</p></div>
+          <div class="flow-item"><span class="step">04 / decisão</span><strong>Nasce pausada</strong><p>A ativação final continua na sua mão.</p></div>
+        </div>
+        <div class="status"><span><b>Kill rule:</b> gastou R$150 sem venda, pausa.</span><span>1 variável por teste</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="metrics">
+    <div class="wrap metrics-grid">
+      <div class="metric"><b>16</b><span>skills incluídas</span></div>
+      <div class="metric"><b>4</b><span>inputs antes de subir</span></div>
+      <div class="metric"><b>15</b><span>criativos por batelada</span></div>
+      <div class="metric"><b>1</b><span>variável por teste</span></div>
     </div>
   </div>
 
   <section id="oquefaz">
     <div class="wrap">
-      <p class="sec-label">O que ele faz</p>
-      <h2>O trabalho de um gestor de tráfego sênior. Sem achismo, com protocolo.</h2>
+      <div class="section-head">
+        <p class="eyebrow">O que ele faz</p>
+        <div>
+          <h2>O trabalho de um gestor sênior, com regra clara.</h2>
+          <p>O agente transforma diagnóstico, orçamento e criação em uma sequência operacional. Menos opinião solta, mais decisão por métrica.</p>
+        </div>
+      </div>
 
       <div class="ledger">
-        <div class="row">
-          <span class="idx">01</span>
-          <h3>Protocolo de subida</h3>
-          <p>Nada sobe sem o gate: <b>ticket, conversão, preço do principal e ROAS desejado</b>. Com isso ele calcula o CAC ideal e monta as duas campanhas do protocolo — Cost Cap com até 15 criativos e ROAS incremental pra escalar pelo valor.</p>
-        </div>
-        <div class="row">
-          <span class="idx">02</span>
-          <h3>Diagnóstico em sequência fixa</h3>
-          <p>Hook rate abaixo de 30%, troca o hook. Body fraco, reescreve. CTR abaixo de 1.5%, revê a promessa. CPA alto, olha a página. <b>Cada métrica aponta pra uma ação</b> — cadência diária de 10 minutos, debrief semanal, saúde da conta no mês.</p>
-        </div>
-        <div class="row">
-          <span class="idx">03</span>
-          <h3>Orçamento de trás pra frente</h3>
-          <p>Meta de inscritos × CPA-alvo = verba da semana. Escala de <b>+20 a 30%</b> só com 3 dias de ROAS estável. Kill rule: gastou R$150 sem venda, pausa. A conta decide, não a ansiedade.</p>
-        </div>
-        <div class="row">
-          <span class="idx">04</span>
-          <h3>Execução via Meta Ads CLI</h3>
-          <p>Sobe campanha direto pela Graph API com runbooks validados em campo — cost cap, atribuição incremental, carrossel, vídeo grande. <b>Toda campanha nasce pausada.</b> Ativar é decisão sua, sempre.</p>
-        </div>
-        <div class="row">
-          <span class="idx">05</span>
-          <h3>Criativos e páginas</h3>
-          <p>Batelada de 15 criativos (5 estáticos, 5 carrosséis, 5 vídeos) com arsenal de hooks e copy de anúncio. Páginas de destino com <b>LCP abaixo de 1.5s</b> — porque criativo bom com página lenta é verba queimada.</p>
-        </div>
-        <div class="row">
-          <span class="idx">06</span>
-          <h3>Dois modelos, duas contas</h3>
-          <p>Evento: ROAS 1 no ingresso, lucro no produto principal. Funil perpétuo: CPA-máximo derivado do <b>LTV</b>, não do front. Ele pergunta qual é o seu modelo antes de otimizar. O alvo muda tudo.</p>
-        </div>
+        <div class="row"><span class="idx">01</span><h3>Protocolo de subida</h3><p>Nada sobe sem o gate: <b>ticket, conversão, preço do principal e ROAS desejado</b>. Com isso ele calcula o CAC ideal e monta as duas campanhas do protocolo, Cost Cap com até 15 criativos e ROAS incremental para escalar pelo valor.</p></div>
+        <div class="row"><span class="idx">02</span><h3>Diagnóstico em sequência fixa</h3><p>Hook rate abaixo de 30%, troca o hook. Body fraco, reescreve. CTR abaixo de 1.5%, revê a promessa. CPA alto, olha a página. <b>Cada métrica aponta para uma ação</b>, com cadência diária, debrief semanal e saúde da conta no mês.</p></div>
+        <div class="row"><span class="idx">03</span><h3>Orçamento de trás pra frente</h3><p>Meta de inscritos × CPA-alvo = verba da semana. Escala de <b>+20 a 30%</b> só com 3 dias de ROAS estável. Kill rule: gastou R$150 sem venda, pausa. A conta decide, não a ansiedade.</p></div>
+        <div class="row"><span class="idx">04</span><h3>Execução via Meta Ads CLI</h3><p>Sobe campanha direto pela Graph API com runbooks validados em campo, cost cap, atribuição incremental, carrossel, vídeo grande. <b>Toda campanha nasce pausada.</b> Ativar é decisão sua, sempre.</p></div>
+        <div class="row"><span class="idx">05</span><h3>Criativos e páginas</h3><p>Batelada de 15 criativos (5 estáticos, 5 carrosséis, 5 vídeos) com arsenal de hooks e copy de anúncio. Páginas de destino com <b>LCP abaixo de 1.5s</b>, porque criativo bom com página lenta é verba queimada.</p></div>
+        <div class="row"><span class="idx">06</span><h3>Dois modelos, duas contas</h3><p>Evento: ROAS 1 no ingresso, lucro no produto principal. Funil perpétuo: CPA-máximo derivado do <b>LTV</b>, não do front. Ele pergunta qual é o seu modelo antes de otimizar. O alvo muda tudo.</p></div>
       </div>
     </div>
   </section>
 
-  <section id="comandos" style="padding-top:0">
+  <section class="cmd-zone" id="comandos">
     <div class="wrap">
-      <p class="sec-label">Comandos rápidos</p>
-      <h2>Você chama, ele responde no papel de gestor.</h2>
+      <div class="section-head">
+        <p class="eyebrow">Comandos rápidos</p>
+        <div>
+          <h2>Você chama, ele responde como gestor.</h2>
+          <p>Os comandos cobrem a operação do dia a dia: subir, diagnosticar, distribuir verba, testar criativos e organizar públicos.</p>
+        </div>
+      </div>
 
       <div class="cmds">
-        <div class="cmd"><b>*subir-campanhas</b><span>gate de 4 inputs → Cost Cap + ROAS incremental</span></div>
+        <div class="cmd"><b>*subir-campanhas</b><span>gate de 4 inputs, Cost Cap + ROAS incremental</span></div>
         <div class="cmd"><b>*estrutura-campanha</b><span>estrutura completa de campanhas</span></div>
         <div class="cmd"><b>*otimizar</b><span>diagnóstico e otimização de métricas</span></div>
         <div class="cmd"><b>*orcamento</b><span>plano de verba e distribuição</span></div>
@@ -243,16 +233,18 @@
         <div class="cmd"><b>*distribuicao-turbo</b><span>impulsionamento e remarketing de consciência</span></div>
       </div>
 
-      <p class="method-note">A premissa dele é uma só: <b>uma variável por teste</b>. Mudou duas coisas, você não sabe o que funcionou. Criativo antes de público, escala horizontal antes de verba, decisão pelo número medido — não pelo pixel inflado.</p>
+      <p class="method-note">A premissa dele é uma só: <b>uma variável por teste</b>. Mudou duas coisas, você não sabe o que funcionou. Criativo antes de público, escala horizontal antes de verba, decisão pelo número medido, não pelo pixel inflado.</p>
     </div>
   </section>
 
   <section class="install" id="instalar">
-    <div class="wrap">
-      <p class="sec-label">Como instalar</p>
-      <h2>Grátis, aberto e rodando em três comandos.</h2>
-      <p class="lead">Requisito: <a href="https://claude.com/claude-code" style="color:inherit">Claude Code</a> instalado. O pacote traz o agente e as 16 skills — o instalador coloca tudo no lugar.</p>
-
+    <div class="wrap install-grid">
+      <div>
+        <p class="eyebrow">Como instalar</p>
+        <h2>Grátis, aberto e rodando em três comandos.</h2>
+        <p class="after">Requisito: <a href="https://claude.com/claude-code">Claude Code</a> instalado. O pacote traz o agente e as 16 skills; o instalador coloca tudo no lugar.</p>
+        <p class="after">Seu dinheiro continua no seu controle: toda campanha nova nasce <b>pausada</b>, toda operação de escrita pede confirmação e o token da Meta fica na sua máquina.</p>
+      </div>
       <div class="terminal">
 <span class="c"># 1 · clonar o repositório</span><br>
 <span class="g">$</span> git clone https://github.com/Turbo-Academy/gestor-trafego-turbo.git<br>
@@ -263,27 +255,24 @@
 <span class="c"># 3 · reiniciar o Claude Code e chamar o gestor</span><br>
 <span class="c">"Use o agente trafego-turbo para estruturar minhas campanhas"</span>
       </div>
-
-      <p class="after">Seu dinheiro continua no seu controle: toda campanha nova nasce <b>pausada</b>, toda operação de escrita pede confirmação e o token da Meta fica na sua máquina — o setup mostra como guardar fora de qualquer repositório.</p>
     </div>
   </section>
 
   <div class="wrap cta-final">
-    <p class="sec-label">Pra quem é</p>
-    <h2>Se você gerencia o próprio tráfego — ou paga caro pra alguém gerenciar — isso é pra você. Você sabe.</h2>
-    <div class="hero-cta">
-      <a class="btn" href="https://github.com/Turbo-Academy/gestor-trafego-turbo">Ver no GitHub</a>
+    <div>
+      <p class="eyebrow">Pra quem é</p>
+      <h2>Para quem precisa operar tráfego com método.</h2>
+      <p class="fine">Licença dual: código sob MIT, método e conteúdo sob CC BY-NC-SA 4.0. Usar no seu próprio negócio é permitido sem custo, detalhes no <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo/blob/main/LICENSE">LICENSE</a>.</p>
     </div>
-    <p class="fine">Licença dual: código sob MIT, método e conteúdo sob CC BY-NC-SA 4.0. Usar no seu próprio negócio é permitido sem custo — detalhes no <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo/blob/main/LICENSE">LICENSE</a>.</p>
+    <a class="btn" href="https://github.com/Turbo-Academy/gestor-trafego-turbo">Ver no GitHub</a>
   </div>
 </main>
 
 <footer>
-  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+  <div class="wrap">
     <span>© 2026 Leo Tabari · Turbo Academy</span>
-    <span><a href="https://turboacademy.com.br">turboacademy.com.br</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub</a></span>
+    <span><a href="https://turboacademy.com.br">turboacademy.com.br</a> · <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub</a></span>
   </div>
 </footer>
-
 </body>
 </html>
