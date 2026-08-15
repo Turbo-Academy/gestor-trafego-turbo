@@ -1,6 +1,6 @@
 # Gestor de Tráfego Turbo
 
-Agente de tráfego pago para Claude Code, com as 16 skills que ele usa no dia a dia. Meta Ads e Google Ads para lançamento pago semanal, funil de entrada low-ticket e distribuição de conteúdo.
+Agente de tráfego pago para Claude Code, com as 18 skills que ele usa no dia a dia. Meta Ads e Google Ads para lançamento pago semanal, funil de entrada low-ticket e distribuição de conteúdo.
 
 Este pacote roda sozinho. Você não precisa do Squad Turbo completo para usar.
 
@@ -12,9 +12,9 @@ Este pacote roda sozinho. Você não precisa do Squad Turbo completo para usar.
 - Protocolo de subida de campanha: gate de 4 inputs + CAC ideal → Cost Cap + ROAS incremental
 - Diagnóstico de tráfego (hook rate, CTR, CPA, ROAS) com cadência diária, semanal e mensal
 - Orçamento calculado de trás pra frente (meta de inscritos × CPA-alvo)
-- Campanha ASC do funil de entrada e campanhas de impulsionamento/remarketing de consciência
+- Campanha do funil de entrada (Vendas com cost cap) e campanhas de impulsionamento/remarketing de consciência
 
-**16 skills** (`skills/`):
+**18 skills** (`skills/`):
 
 | Skill | Pra quê |
 |---|---|
@@ -22,10 +22,11 @@ Este pacote roda sozinho. Você não precisa do Squad Turbo completo para usar.
 | `meta-ads-cli-setup-turbo` | Conectar a Meta Ads CLI do zero (token, permissões, 1ª chamada) |
 | `meta-ads-cli-turbo` | Operação avançada via CLI/Graph API (batelada, stop-loss, escala) |
 | `lancamento-pago-semanal-turbo` | Visão geral do método 5+1 |
-| `funil-8-turbo` | Produto de entrada low-ticket com campanha ASC |
+| `funil-8-turbo` | Produto de entrada low-ticket (R$ 35-98) · campanha de Vendas com cost cap |
 | `distribuicao-turbo` | Funil de consciência C0-C3 e Ativador Turbo |
 | `criativos-lpsg-turbo` | Batelada de 15 criativos (formato + produção) |
 | `criador-criativos-turbo` | Copy de anúncio (hooks, body, estrutura invisível) |
+| `gerador-criativos-vsl` | Criativos de topo pra funil de VSL (5 tipos · 20 narrativas) |
 | `paginas-lpsg-turbo` | Páginas de destino dos ads |
 | `page-optimizer-turbo` | Otimização de performance da página (LCP < 1.5s) |
 | `dashboard-lpsg-turbo` | Dashboard de acompanhamento do lançamento |
@@ -34,12 +35,15 @@ Este pacote roda sozinho. Você não precisa do Squad Turbo completo para usar.
 | `design-tokens-turbo` | Tokens visuais usados pelos dashboards (tipografia, paleta) |
 | `lovable-style-turbo` | Estilo de build das páginas e dashboards em React |
 | `designer-senior-turbo` | Implementação HTML das páginas de destino |
+| `leitura-web-turbo` | Ler página no ar (a sua e a do concorrente) — copy, CTA e pixel depois do deploy |
 
 ## Requisitos
 
 - [Claude Code](https://claude.com/claude-code) instalado
 
 ## Instalação
+
+> 🚀 **Nunca usou o Claude Code?** Siga o **[INSTALACAO-DO-ZERO.md](INSTALACAO-DO-ZERO.md)** — tudo pelo app Claude Desktop: você cola `instale o gestor de tráfego github.com/Turbo-Academy/gestor-trafego-turbo` no Code e o próprio Claude instala. [Versão bonita no navegador](https://turbo-academy.github.io/gestor-trafego-turbo/instalacao-do-zero.html).
 
 ```bash
 git clone https://github.com/Turbo-Academy/gestor-trafego-turbo.git
@@ -74,7 +78,7 @@ Comandos rápidos do agente:
 | `*publicos` | Públicos e segmentações |
 | `*orcamento` | Plano de orçamento e distribuição |
 | `*otimizar` | Diagnóstico e otimização de métricas |
-| `*funil-8-turbo` | Campanha ASC do funil de entrada |
+| `*funil-8-turbo` | Campanha do funil de entrada (cost cap) |
 | `*distribuicao-turbo` | Impulsionamento e Ativador Turbo |
 | `*google-ads` | Campanhas Google Ads |
 
@@ -85,6 +89,12 @@ Duas skills de terceiros deixam o agente mais completo (deploy e teste da págin
 ```bash
 npx skills add vercel-labs/agent-skills --skill deploy-to-vercel --yes
 npx skills add anthropics/skills --skill webapp-testing --yes
+```
+
+E o **Scrapling** (~1,5 GB) dá superpoder à `leitura-web-turbo`: o agente passa a ler página com JavaScript ou bloqueio (sem ele, degrada pro leitor nativo do Claude, que cobre página simples):
+
+```bash
+bash tools/instalar-scrapling.sh
 ```
 
 O agente menciona outros agentes do Squad Turbo (revisor de copy, diretor criativo, estrategista). São referências de fluxo de trabalho: sem eles instalados, o agente segue funcionando normalmente e executa o trabalho de tráfego completo sozinho.

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Instala o Gestor de Tráfego Turbo (agente + 13 skills) no Claude Code.
+# Instala o Gestor de Tráfego Turbo (agente + 18 skills) no Claude Code.
+# Idempotente — pode rodar de novo quando atualizar o repo (git pull && ./install.sh).
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -21,5 +22,11 @@ cp "$REPO_DIR/agents/trafego-turbo.md" "$AGENTS_DIR/"
 echo "  ✓ trafego-turbo"
 
 echo ""
-echo "Pronto. Reinicie o Claude Code e chame o agente:"
+echo "Pronto. Agora REINICIE o Claude Code (feche a sessão e abra outra):"
+echo "  skills e agente só carregam em sessão NOVA — a sessão desta instalação"
+echo "  não enxerga o que ela mesma instalou."
+echo ""
+echo "Confira: /skills lista as skills · e chame o agente:"
 echo "  \"Use o agente trafego-turbo para estruturar minhas campanhas\""
+echo ""
+echo "Opcional (leitura de páginas com JS/bloqueio · ~1,5 GB): bash tools/instalar-scrapling.sh"

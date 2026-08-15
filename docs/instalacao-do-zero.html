@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instalação do Zero · Gestor de Tráfego Turbo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFAF7; --bg-alt:#F4F2EC; --bg-card:#FFFFFF; --bg-dark:#0A0A0B;
+  --text:#0A0A0A; --text-soft:#3A3A3A; --text-muted:#6B6B6B; --text-faded:#A0A0A0;
+  --accent:#FF5C00; --accent-2:#FFB800; --accent-soft:#FFEDE0; --accent-glow:rgba(255,92,0,0.18);
+  --success:#10B981; --success-soft:#E7F8F1;
+  --border:#ECEAE3; --border-soft:#F4F2EC;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.04); --shadow-md:0 8px 24px rgba(0,0,0,0.06); --shadow-lg:0 24px 48px rgba(0,0,0,0.08);
+  --radius-sm:8px; --radius:12px; --radius-lg:20px;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+*::selection{background:var(--accent-soft);color:var(--accent)}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:'Inter',-apple-system,sans-serif;font-size:16px;line-height:1.65;color:var(--text);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── topbar ── */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(251,250,247,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.topbar-in{max-width:880px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px}
+.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px var(--accent-glow);flex-shrink:0}
+.brand-t{font-weight:700;font-size:14px;letter-spacing:-0.01em}
+.brand-s{font-size:11px;color:var(--text-muted)}
+.topnav{margin-left:auto;display:flex;gap:4px}
+.topnav a{font-size:12.5px;font-weight:600;color:var(--text-muted);padding:6px 11px;border-radius:99px}
+.topnav a:hover{background:var(--accent-soft);color:var(--accent);text-decoration:none}
+@media(max-width:640px){.topnav{display:none}}
+
+/* ── hero ── */
+.hero{max-width:880px;margin:0 auto;padding:64px 24px 40px;text-align:center}
+.hero .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:6px 14px;border-radius:99px;margin-bottom:22px}
+.hero h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(34px,5.5vw,52px);line-height:1.12;letter-spacing:-0.015em;margin-bottom:18px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero .lead{font-size:17.5px;color:var(--text-soft);max-width:640px;margin:0 auto;text-wrap:pretty}
+.hero .lead strong{color:var(--text)}
+.stats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:30px}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 22px;box-shadow:var(--shadow-sm)}
+.stat b{display:block;font-size:21px;letter-spacing:-0.02em}
+.stat span{font-size:12px;color:var(--text-muted)}
+.cli-note{margin:34px auto 0;max-width:620px;font-size:13.5px;color:var(--text-muted);background:var(--bg-alt);border-radius:var(--radius);padding:12px 18px}
+
+/* ── layout ── */
+.wrap{max-width:880px;margin:0 auto;padding:0 24px 90px}
+section{margin-top:56px}
+
+/* ── checklist ── */
+.check-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 30px;box-shadow:var(--shadow-md)}
+.check-card h2{font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.check-list{list-style:none;display:grid;gap:10px}
+.check-list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--text-soft)}
+.check-list .box{width:20px;height:20px;border:2px solid var(--accent);border-radius:6px;flex-shrink:0;margin-top:2px}
+.check-list b{color:var(--text)}
+
+/* ── etapa ── */
+.etapa{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden}
+.etapa-head{display:flex;align-items:center;gap:16px;padding:24px 30px 0}
+.etapa-num{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;font-size:19px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px var(--accent-glow);flex-shrink:0}
+.etapa-head h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px;letter-spacing:-0.01em}
+.etapa-head .tempo{margin-left:auto;font-size:12px;font-weight:600;color:var(--text-muted);background:var(--bg-alt);padding:5px 12px;border-radius:99px;white-space:nowrap}
+.etapa-body{padding:18px 30px 28px}
+.etapa-body>p{color:var(--text-soft);margin-bottom:14px}
+.etapa-body>p strong,.steps strong{color:var(--text)}
+.steps{list-style:none;counter-reset:s;display:grid;gap:11px;margin:6px 0 4px}
+.steps li{counter-increment:s;display:flex;gap:13px;color:var(--text-soft);font-size:15.5px}
+.steps li::before{content:counter(s);width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.steps li>span{flex:1;min-width:0}
+/* itens de grid não encolhem abaixo do min-content por padrão: sem isto o
+   texto longo estoura o card (que tem overflow:hidden) e some no celular */
+.steps li,.check-list li,.expect li{min-width:0}
+.steps li>span,.check-list li>span:last-child,.expect li>span:last-child{overflow-wrap:break-word}
+
+/* ── ilustrações de referência ── */
+.shot{margin:20px 0 6px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg-alt);box-shadow:var(--shadow-sm)}
+.shot svg{display:block;width:100%;height:auto}
+.shot figcaption{font-size:12.5px;color:var(--text-muted);padding:10px 15px;border-top:1px solid var(--border);background:var(--bg-card)}
+.shot figcaption b{color:var(--text-soft)}
+.dica{display:flex;gap:10px;background:var(--bg-alt);border-radius:var(--radius);padding:13px 16px;font-size:14px;color:var(--text-soft);margin-top:14px}
+.dica .i{flex-shrink:0}
+
+/* ── checkpoint ── */
+.checkpoint{display:flex;gap:11px;align-items:flex-start;background:var(--success-soft);border:1px solid #C9EEDF;border-radius:var(--radius);padding:14px 17px;margin-top:18px;font-size:14.5px;color:#0B5138}
+.checkpoint .ic{width:21px;height:21px;border-radius:50%;background:var(--success);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;margin-top:1px}
+.checkpoint b{color:#063D2A}
+
+/* ── code ── */
+.code-block{position:relative;margin:16px 0 6px}
+.code-block pre{background:var(--bg-dark);color:#F5F3EE;border-radius:var(--radius);padding:18px 20px;font-family:var(--mono);font-size:13.5px;line-height:1.7;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.code-block.hero-cmd pre{font-size:16px;padding:24px;border:1px solid rgba(255,92,0,0.35);box-shadow:0 12px 32px var(--accent-glow)}
+.copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#D9D6CE;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .2s}
+.copy-btn:hover{background:rgba(255,92,0,0.25);border-color:var(--accent);color:#fff}
+.copy-btn.ok{background:var(--success);border-color:var(--success);color:#fff}
+.expect{margin-top:18px}
+.expect h3{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+.expect ul{list-style:none;display:grid;gap:9px}
+.expect li{display:flex;gap:10px;font-size:14.5px;color:var(--text-soft)}
+.expect .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px}
+
+/* ── details ── */
+details{margin-top:14px;background:var(--bg-alt);border-radius:var(--radius);padding:0}
+details summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--text-soft);padding:13px 17px;list-style:none;display:flex;align-items:center;gap:8px}
+details summary::before{content:"▸";color:var(--accent);transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details .inner{padding:0 17px 15px}
+details .inner p{font-size:14px;color:var(--text-soft);margin-bottom:10px}
+
+/* ── troubleshooting ── */
+.trouble h2,.section-h{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;letter-spacing:-0.01em;margin-bottom:6px}
+.section-sub{color:var(--text-muted);font-size:15px;margin-bottom:22px}
+.t-grid{display:grid;gap:12px}
+.t-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow-sm)}
+.t-item .sint{font-weight:600;font-size:14.5px;margin-bottom:5px}
+.t-item .sol{font-size:14px;color:var(--text-soft)}
+.t-item .sol code{font-family:var(--mono);font-size:12.5px;background:var(--bg-alt);padding:2px 7px;border-radius:6px}
+
+/* ── windows ── */
+.win-card{background:linear-gradient(135deg,#0A0A0B,#1A1A1E);color:#E8E6E1;border-radius:var(--radius-lg);padding:28px 30px;box-shadow:var(--shadow-lg)}
+.win-card h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px;margin-bottom:10px;color:#fff}
+.win-card p{font-size:15px;color:#C9C6BF;margin-bottom:10px}
+.win-card code{font-family:var(--mono);font-size:13px;background:rgba(255,255,255,0.09);padding:2px 8px;border-radius:6px;color:#FFD9A8}
+
+/* ── capacidades ── */
+.cap-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;box-shadow:var(--shadow-sm);margin-top:16px}
+.cap-block h3{font-size:16.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;display:flex;align-items:center;gap:9px}
+.cap-block h3 .ico{width:26px;height:26px;border-radius:8px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.cap-block p{font-size:14.5px;color:var(--text-soft)}
+.cap-block ul{list-style:none;display:grid;gap:8px;margin-top:4px}
+.cap-block li{display:flex;gap:10px;font-size:14.5px;color:var(--text-soft)}
+.cap-block li .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px}
+.cap-block li{min-width:0}
+.agents-tb{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px}
+.agents-tb td{padding:7px 10px;border-top:1px solid var(--border-soft);color:var(--text-soft);vertical-align:top}
+.agents-tb td:first-child{font-family:var(--mono);font-size:12px;color:var(--accent);white-space:nowrap}
+.agents-scroll{overflow-x:auto}
+
+/* ── next ── */
+.next-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.next-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-sm);transition:all .2s;display:block;color:var(--text)}
+.next-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);text-decoration:none}
+.next-card .n{font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase}
+.next-card h3{font-size:15.5px;font-weight:700;margin:6px 0 5px}
+.next-card p{font-size:13.5px;color:var(--text-muted)}
+
+footer{border-top:1px solid var(--border);margin-top:70px;padding:26px 24px;text-align:center;font-size:13px;color:var(--text-faded)}
+@media(max-width:640px){
+  .etapa-head{padding:20px 20px 0;flex-wrap:wrap}
+  .etapa-body{padding:16px 20px 22px}
+  .etapa-head .tempo{margin-left:0}
+  .check-card,.win-card{padding:22px 20px}
+}
+@media print{.topbar,.copy-btn{display:none}.etapa,.check-card{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="logo">T</div>
+    <div><div class="brand-t">Gestor de Tráfego Turbo</div><div class="brand-s">Instalação do zero</div></div>
+    <nav class="topnav">
+      <a href="#etapa1">1 · App</a><a href="#etapa2">2 · Code</a><a href="#etapa3">3 · Comando</a><a href="#etapa4">4 · Conferir</a><a href="#capacidades">O que faz</a><a href="#trouble">Socorro</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="kicker">Para quem nunca usou o Claude Code</div>
+  <h1>Um comando no Claude<br>e o gestor de tráfego <em>instalado</em></h1>
+  <p class="lead">Tudo pelo <strong>app Claude Desktop</strong>: você cola um comando com o link do GitHub e o próprio Claude baixa e instala. <strong>Sem Terminal, sem ZIP, sem git, sem senha.</strong></p>
+  <div class="stats">
+    <div class="stat"><b>~10 min</b><span>do zero ao agente</span></div>
+    <div class="stat"><b>18</b><span>skills instaladas</span></div>
+    <div class="stat"><b>1</b><span>agente de tráfego</span></div>
+    <div class="stat"><b>1</b><span>comando colado</span></div>
+  </div>
+  <div class="cli-note">Prefere fazer pelo Terminal (CLI)? O caminho equivalente (git clone + ./install.sh) está no README do repositório.</div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <div class="check-card">
+    <h2>✅ O que você precisa antes de começar</h2>
+    <ul class="check-list">
+      <li><span class="box"></span><span>Um computador <b>Mac</b> (Windows também funciona — veja a caixa preta no fim)</span></li>
+      <li><span class="box"></span><span>Uma <b>conta Claude paga</b> (plano Pro ou Max) — crie em <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a></span></li>
+      <li><span class="box"></span><span><b>~200 MB de espaço livre</b> (+ ~1,5 GB opcionais, só se quiser a leitura avançada de páginas)</span></li>
+      <li><span class="box"></span><span><b>10 minutos</b> sem interrupção</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="etapa1">
+  <div class="etapa">
+    <div class="etapa-head"><div class="etapa-num">1</div><h2>Instalar o app Claude Desktop</h2><span class="tempo">~5 min</span></div>
+    <div class="etapa-body">
+      <ol class="steps">
+        <li><span>Baixe o app em <strong><a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a></strong></span></li>
+        <li><span>Abra o arquivo baixado e <strong>arraste o Claude pra pasta Aplicativos</strong></span></li>
+        <li><span>Abra o Claude (<strong>Cmd + Espaço</strong> → digite <strong>Claude</strong> → Enter)</span></li>
+        <li><span><strong>Entre na sua conta</strong> claude.ai — a conta <strong>paga</strong> (Pro ou Max)</span></li>
+      </ol>
+
+      <figure class="shot">
+      <svg viewBox="0 0 720 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Janela de instalação do Mac: arrastar o ícone do Claude para a pasta Aplicativos">
+        <rect width="720" height="290" fill="#F4F2EC"/>
+        <rect x="70" y="34" width="580" height="222" rx="14" fill="#FFFFFF" stroke="#E3E0D8"/>
+        <path d="M70 48a14 14 0 0 1 14-14h552a14 14 0 0 1 14 14v20H70z" fill="#F7F5F0"/>
+        <line x1="70" y1="68" x2="650" y2="68" stroke="#E8E5DE"/>
+        <circle cx="92" cy="51" r="5" fill="#FF5F57"/><circle cx="110" cy="51" r="5" fill="#FEBC2E"/><circle cx="128" cy="51" r="5" fill="#28C840"/>
+        <text x="360" y="55" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#8A8A8A">Claude</text>
+
+        <rect x="192" y="108" width="92" height="92" rx="21" fill="#D97757"/>
+        <g stroke="#FFFFFF" stroke-width="7" stroke-linecap="round">
+          <line x1="218" y1="154" x2="258" y2="154"/><line x1="238" y1="134" x2="238" y2="174"/>
+          <line x1="224" y1="140" x2="252" y2="168"/><line x1="252" y1="140" x2="224" y2="168"/>
+        </g>
+        <text x="238" y="222" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#3A3A3A">Claude</text>
+
+        <line x1="312" y1="154" x2="418" y2="154" stroke="#FF5C00" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round"/>
+        <path d="M416 145l16 9-16 9z" fill="#FF5C00"/>
+
+        <path d="M448 118h34l10 12h60a8 8 0 0 1 8 8v54a8 8 0 0 1-8 8h-104a8 8 0 0 1-8-8v-66a8 8 0 0 1 8-8z" fill="#6E9BEA"/>
+        <path d="M448 136h112a8 8 0 0 1 8 8v48a8 8 0 0 1-8 8H448a8 8 0 0 1-8-8v-48a8 8 0 0 1 8-8z" fill="#8FB4F2"/>
+        <text x="504" y="180" text-anchor="middle" font-family="Inter,sans-serif" font-size="26" font-weight="700" fill="#FFFFFF">A</text>
+        <text x="504" y="222" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#3A3A3A">Aplicativos</text>
+      </svg>
+      <figcaption><b>Etapa 1 · o que você vai ver:</b> arraste o ícone do Claude pra cima da pasta Aplicativos e solte. Ilustração — sua tela pode variar um pouco.</figcaption>
+      </figure>
+
+      <div class="checkpoint"><span class="ic">✓</span><span><b>Checkpoint:</b> o app abre e mostra o chat do Claude com seu nome/conta.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="etapa2">
+  <div class="etapa">
+    <div class="etapa-head"><div class="etapa-num">2</div><h2>Abrir uma sessão no Code</h2><span class="tempo">~2 min</span></div>
+    <div class="etapa-body">
+      <p>O <strong>Code</strong> é a área do app em que o Claude tem mãos: lê arquivos e executa comandos numa pasta que você escolher.</p>
+      <ol class="steps">
+        <li><span>No app Claude, clique em <strong>Code</strong> (na barra lateral)</span></li>
+        <li><span>Crie uma <strong>nova sessão</strong> e, quando ele pedir a pasta, escolha onde o gestor vai morar — <strong>Documentos</strong> serve perfeitamente</span></li>
+        <li><span>Abre um chat normal — a diferença é que esse chat trabalha dentro da pasta escolhida</span></li>
+      </ol>
+
+      <figure class="shot">
+      <svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="App Claude com a barra lateral: clicar em Code e escolher a pasta Documentos">
+        <rect width="720" height="330" fill="#F4F2EC"/>
+        <rect x="40" y="26" width="640" height="278" rx="14" fill="#FFFFFF" stroke="#E3E0D8"/>
+        <path d="M40 40a14 14 0 0 1 14-14h612a14 14 0 0 1 14 14v20H40z" fill="#F7F5F0"/>
+        <line x1="40" y1="60" x2="680" y2="60" stroke="#E8E5DE"/>
+        <circle cx="62" cy="43" r="5" fill="#FF5F57"/><circle cx="80" cy="43" r="5" fill="#FEBC2E"/><circle cx="98" cy="43" r="5" fill="#28C840"/>
+
+        <rect x="40" y="60" width="176" height="244" fill="#FAF8F4"/>
+        <line x1="216" y1="60" x2="216" y2="304" stroke="#E8E5DE"/>
+        <rect x="56" y="80" width="86" height="11" rx="5.5" fill="#DEDAD1"/>
+        <rect x="56" y="112" width="144" height="34" rx="9" fill="#FFFFFF" stroke="#E8E5DE"/>
+        <text x="72" y="134" font-family="Inter,sans-serif" font-size="13.5" fill="#6B6B6B">Chat</text>
+        <rect x="56" y="154" width="144" height="34" rx="9" fill="#FFEDE0" stroke="#FF5C00" stroke-width="2"/>
+        <text x="72" y="176" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="#C2410C">Code</text>
+        <circle cx="204" cy="158" r="11" fill="#FF5C00"/>
+        <text x="204" y="163" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
+        <rect x="56" y="198" width="144" height="34" rx="9" fill="#FFFFFF" stroke="#E8E5DE"/>
+        <text x="72" y="220" font-family="Inter,sans-serif" font-size="13.5" fill="#6B6B6B">Histórico</text>
+
+        <rect x="258" y="92" width="380" height="180" rx="12" fill="#FFFFFF" stroke="#E3E0D8"/>
+        <text x="282" y="122" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="#0A0A0A">Escolher a pasta do projeto</text>
+        <rect x="282" y="138" width="332" height="34" rx="8" fill="#FFEDE0" stroke="#FF5C00" stroke-width="2"/>
+        <path d="M296 148h11l3 4h16a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-30a3 3 0 0 1-3-3v-15a3 3 0 0 1 3-3z" fill="#FF5C00"/>
+        <text x="344" y="160" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="#C2410C">Documentos</text>
+        <circle cx="628" cy="155" r="11" fill="#FF5C00"/>
+        <text x="628" y="160" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
+        <rect x="282" y="180" width="332" height="30" rx="8" fill="#FAF8F4"/>
+        <text x="300" y="200" font-family="Inter,sans-serif" font-size="13" fill="#8A8A8A">Downloads</text>
+        <rect x="282" y="216" width="332" height="30" rx="8" fill="#FAF8F4"/>
+        <text x="300" y="236" font-family="Inter,sans-serif" font-size="13" fill="#8A8A8A">Área de trabalho</text>
+      </svg>
+      <figcaption><b>Etapa 2 · o que você vai ver:</b> <b>1</b> clique em Code na barra lateral · <b>2</b> escolha a pasta onde o squad vai morar. Ilustração — sua tela pode variar um pouco.</figcaption>
+      </figure>
+
+      <div class="checkpoint"><span class="ic">✓</span><span><b>Checkpoint:</b> sessão aberta mostrando o nome da pasta (ex.: <strong>Documentos</strong>).</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="etapa3">
+  <div class="etapa">
+    <div class="etapa-head"><div class="etapa-num">3</div><h2>Colar o comando de instalação</h2><span class="tempo">~2-5 min</span></div>
+    <div class="etapa-body">
+      <p>Cole isto no chat e aperte Enter:</p>
+      <div class="code-block hero-cmd">
+        <pre id="cmd-hero" style="padding-right:96px">instale o gestor de tráfego github.com/Turbo-Academy/gestor-trafego-turbo</pre>
+        <button class="copy-btn" data-copy="cmd-hero">Copiar</button>
+      </div>
+      <p style="margin-top:14px"><strong>Só isso.</strong> O Claude baixa o repositório, lê as instruções que estão nele e roda o <strong>install.sh</strong> — o agente <strong>trafego-turbo</strong> e as 18 skills entram no lugar certo.</p>
+
+      <div class="expect">
+        <h3>O que esperar durante a execução</h3>
+        <ul>
+          <li><span class="dot"></span><span><strong>Não precisa ter git instalado nem digitar senha</strong> em momento nenhum — o repo é público e a instalação só copia arquivos.</span></li>
+          <li><span class="dot"></span><span><strong>Um opcional pode ser oferecido:</strong> o <strong>Scrapling</strong> (~1,5 GB), que deixa o agente ler página com JavaScript ou bloqueio — útil pra espiar concorrente e conferir a sua página no ar. Diga sim ou não; dá pra instalar depois.</span></li>
+          <li><span class="dot"></span><span><strong>O app pede permissão</strong> antes de cada comando (botão <em>Permitir/Allow</em>). É o comportamento normal — leia e autorize.</span></li>
+          
+        </ul>
+      </div>
+
+      <figure class="shot">
+      <svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chat do Code com o comando colado e o pedido de permissão para executar">
+        <rect width="720" height="340" fill="#F4F2EC"/>
+        <rect x="40" y="26" width="640" height="288" rx="14" fill="#FFFFFF" stroke="#E3E0D8"/>
+        <path d="M40 40a14 14 0 0 1 14-14h612a14 14 0 0 1 14 14v20H40z" fill="#F7F5F0"/>
+        <line x1="40" y1="60" x2="680" y2="60" stroke="#E8E5DE"/>
+        <circle cx="62" cy="43" r="5" fill="#FF5F57"/><circle cx="80" cy="43" r="5" fill="#FEBC2E"/><circle cx="98" cy="43" r="5" fill="#28C840"/>
+        <text x="360" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" font-weight="600" fill="#8A8A8A">Code · gestor-trafego-turbo</text>
+
+        <rect x="150" y="80" width="506" height="38" rx="11" fill="#0A0A0B"/>
+        <text x="403" y="104" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11.5" fill="#F5F3EE" textLength="470" lengthAdjust="spacingAndGlyphs">instale o gestor de tráfego github.com/Turbo-Academy/gestor-trafego-turbo</text>
+
+        <circle cx="78" cy="140" r="12" fill="#D97757"/>
+        <g stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round">
+          <line x1="71" y1="140" x2="85" y2="140"/><line x1="78" y1="133" x2="78" y2="147"/>
+          <line x1="73" y1="135" x2="83" y2="145"/><line x1="83" y1="135" x2="73" y2="145"/>
+        </g>
+        <text x="100" y="137" font-family="Inter,sans-serif" font-size="13" fill="#3A3A3A">Beleza — vou baixar o repositório e rodar o instalador.</text>
+        <rect x="100" y="148" width="228" height="9" rx="4.5" fill="#E8E5DE"/>
+
+        <rect x="100" y="176" width="500" height="112" rx="12" fill="#FFFBF7" stroke="#FF5C00" stroke-width="2"/>
+        <text x="122" y="202" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0A0A0A">Permitir executar este comando?</text>
+        <rect x="122" y="212" width="456" height="28" rx="7" fill="#0A0A0B"/>
+        <text x="136" y="230" font-family="JetBrains Mono,monospace" font-size="11.5" fill="#F5F3EE">bash install.sh</text>
+        <rect x="122" y="252" width="104" height="30" rx="8" fill="#FF5C00"/>
+        <text x="174" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Permitir</text>
+        <rect x="236" y="252" width="104" height="30" rx="8" fill="#FFFFFF" stroke="#E3E0D8"/>
+        <text x="288" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#6B6B6B">Agora não</text>
+        <circle cx="368" cy="267" r="12" fill="#FF5C00"/>
+        <text x="368" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="700" fill="#FFFFFF">✓</text>
+        <text x="388" y="272" font-family="Inter,sans-serif" font-size="12.5" font-weight="600" fill="#C2410C">clique aqui — é o normal</text>
+      </svg>
+      <figcaption><b>Etapa 3 · o que você vai ver:</b> o comando colado e, a cada passo, o pedido de permissão. Autorizar é o esperado. Ilustração — sua tela pode variar um pouco.</figcaption>
+      </figure>
+
+      <details>
+        <summary>O Claude pediu mais direção? (ou você quer controle fino)</summary>
+        <div class="inner">
+          <p>Cole este complemento:</p>
+          <div class="code-block">
+<pre id="cmd-full">Baixe o repositório pra esta pasta (sem git no sistema, use o ZIP do
+branch main via curl — NÃO instale o Xcode), rode bash install.sh
+e me mostre a lista de skills instaladas.
+Quero também o Scrapling (leitura avançada de páginas, sei dos ~1,5 GB):
+bash tools/instalar-scrapling.sh</pre>
+            <button class="copy-btn" data-copy="cmd-full">Copiar</button>
+          </div>
+        </div>
+      </details>
+
+      <div class="checkpoint"><span class="ic">✓</span><span><b>Checkpoint:</b> o Claude mostra a lista de skills instaladas com ✓ e avisa pra reiniciar.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="etapa4">
+  <div class="etapa">
+    <div class="etapa-head"><div class="etapa-num">4</div><h2>Conferir se funcionou</h2><span class="tempo">~2 min</span></div>
+    <div class="etapa-body">
+      <p><strong>Tudo que acabou de ser instalado — skills, agentes e conexões (MCPs) — só carrega quando uma sessão nova abre.</strong> A sessão da instalação não enxerga o que ela mesma instalou. Então:</p>
+      <ol class="steps">
+        <li><span><strong>Feche a sessão e abra uma nova</strong> — desta vez escolhendo a pasta <strong>gestor-trafego-turbo</strong> (dentro de Documentos)</span></li>
+        <li><span>Digite <strong>/skills</strong> → a lista deve mostrar as skills (<em>trafego-lpsg-turbo, meta-ads-cli-turbo, funil-8-turbo…</em>)</span></li>
+        <li><span>Teste o agente — cole:</span></li>
+      </ol>
+      <div class="code-block">
+        <pre id="cmd-test">Use o agente trafego-turbo e se apresenta em 2 linhas</pre>
+        <button class="copy-btn" data-copy="cmd-test">Copiar</button>
+      </div>
+
+      <figure class="shot">
+      <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lista de skills aparecendo ao digitar barra skills, e o agente de tráfego respondendo">
+        <rect width="720" height="320" fill="#F4F2EC"/>
+        <rect x="40" y="26" width="640" height="268" rx="14" fill="#FFFFFF" stroke="#E3E0D8"/>
+        <path d="M40 40a14 14 0 0 1 14-14h612a14 14 0 0 1 14 14v20H40z" fill="#F7F5F0"/>
+        <line x1="40" y1="60" x2="680" y2="60" stroke="#E8E5DE"/>
+        <circle cx="62" cy="43" r="5" fill="#FF5F57"/><circle cx="80" cy="43" r="5" fill="#FEBC2E"/><circle cx="98" cy="43" r="5" fill="#28C840"/>
+        <text x="360" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" font-weight="600" fill="#8A8A8A">sessão NOVA · gestor-trafego-turbo</text>
+
+        <rect x="68" y="80" width="300" height="34" rx="9" fill="#FFFFFF" stroke="#FF5C00" stroke-width="2"/>
+        <text x="86" y="102" font-family="JetBrains Mono,monospace" font-size="13.5" font-weight="600" fill="#C2410C">/skills</text>
+        <rect x="68" y="122" width="300" height="150" rx="10" fill="#FFFFFF" stroke="#E3E0D8"/>
+        <g font-family="JetBrains Mono,monospace" font-size="12" fill="#3A3A3A">
+          <text x="106" y="148">trafego-lpsg-turbo</text>
+          <text x="106" y="176">meta-ads-cli-turbo</text>
+          <text x="106" y="204">funil-8-turbo</text>
+          <text x="106" y="232">criativos-lpsg-turbo</text>
+        </g>
+        <g fill="#10B981" font-family="Inter,sans-serif" font-size="12" font-weight="700">
+          <text x="86" y="148">✓</text><text x="86" y="176">✓</text><text x="86" y="204">✓</text><text x="86" y="232">✓</text>
+        </g>
+        <text x="106" y="258" font-family="Inter,sans-serif" font-size="11.5" fill="#A0A0A0">…e mais 14 skills</text>
+
+        <rect x="400" y="80" width="248" height="34" rx="9" fill="#0A0A0B"/>
+        <text x="416" y="102" font-family="JetBrains Mono,monospace" font-size="11.5" fill="#F5F3EE">@trafego-turbo</text>
+        <circle cx="414" cy="140" r="12" fill="#D97757"/>
+        <g stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round">
+          <line x1="407" y1="140" x2="421" y2="140"/><line x1="414" y1="133" x2="414" y2="147"/>
+          <line x1="409" y1="135" x2="419" y2="145"/><line x1="419" y1="135" x2="409" y2="145"/>
+        </g>
+        <text x="436" y="137" font-family="Inter,sans-serif" font-size="12.5" font-weight="700" fill="#0A0A0A">trafego-turbo</text>
+        <g fill="#E8E5DE">
+          <rect x="400" y="160" width="248" height="9" rx="4.5"/>
+          <rect x="400" y="178" width="230" height="9" rx="4.5"/>
+          <rect x="400" y="196" width="196" height="9" rx="4.5"/>
+        </g>
+        <rect x="400" y="224" width="180" height="34" rx="9" fill="#E7F8F1" stroke="#C9EEDF"/>
+        <text x="418" y="246" font-family="Inter,sans-serif" font-size="12.5" font-weight="700" fill="#0B5138">✓ agente respondendo</text>
+      </svg>
+      <figcaption><b>Etapa 4 · o que você vai ver:</b> a lista de skills preenchida e o agente respondendo. Se os dois aparecem, acabou. Ilustração — sua tela pode variar um pouco.</figcaption>
+      </figure>
+
+      <div class="checkpoint"><span class="ic">✓</span><span><b>Checkpoint final:</b> o agente respondeu. <b>O gestor de tráfego está instalado e funcionando.</b> 🎉</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="trouble" class="trouble">
+  <h2 class="section-h">😵 Deu errado?</h2>
+  <p class="section-sub">Os tropeços clássicos — e a saída de cada um.</p>
+  <div class="t-grid">
+    <div class="t-item"><div class="sint">Não acho o Code no app</div><div class="sol">Versão antiga do app. Atualize o Claude Desktop em <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>.</div></div>
+    <div class="t-item"><div class="sint">O Claude diz que não pode rodar comandos</div><div class="sol">A sessão foi aberta no chat comum, não no Code. Refaça a Etapa 2 — tem que ser uma sessão do <strong>Code</strong>, com pasta escolhida.</div></div>
+    <div class="t-item"><div class="sint">O Claude não conseguiu baixar o repositório</div><div class="sol">Cole: <code>baixe o ZIP do branch main desse repositório com curl e descompacte</code></div></div>
+    <div class="t-item"><div class="sint">Pediu permissão e eu neguei sem querer</div><div class="sol">Peça: <code>tenta de novo o último comando</code> e autorize.</div></div>
+    <div class="t-item"><div class="sint">/skills não mostra as skills · agente não responde ao @nome · Scrapling não lê páginas</div><div class="sol">A sessão foi aberta antes do fim da instalação — nada recém-instalado carrega nela. Feche e abra uma sessão nova (Etapa 4).</div></div>
+    <div class="t-item"><div class="sint">Travou em qualquer outra coisa</div><div class="sol">Cole no chat: <code>estou seguindo o manual de instalação e travei nesta etapa: [descreva]</code> — ele mesmo te destrava.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="win-card">
+    <h2>🪟 E no Windows?</h2>
+    <p>O app Claude Desktop também existe pra Windows — Etapas 1 e 2 são iguais. No Windows, o Claude Code pode pedir o <strong>Git for Windows</strong> na primeira execução (ele avisa e aponta o download; instale com as opções padrão).</p>
+    <p>Depois cole o mesmo comando da Etapa 3 acrescentando: <code>estou no Windows — adapte a instalação pro meu sistema</code></p>
+  </div>
+</section>
+
+<section id="capacidades">
+  <h2 class="section-h">💪 O que ele é capaz de fazer</h2>
+  <p class="section-sub">Tudo se pede em português, no chat.</p>
+
+  <div class="cap-block">
+    <h3><span class="ico">📈</span>Campanhas Meta Ads de ponta a ponta</h3>
+    <ul>
+      <li><span class="dot"></span><span><strong>Estrutura do lançamento pago</strong> (venda de ingresso com ROAS 1) — protocolo de subida: gate de 4 inputs + CAC ideal → Cost Cap + ROAS incremental</span></li>
+      <li><span class="dot"></span><span><strong>Operação pela CLI oficial da Meta</strong>: batelada de criativos, stop-loss, relatórios, escala — toda campanha nasce <strong>pausada</strong> (ativar é decisão sua)</span></li>
+      <li><span class="dot"></span><span><strong>Funil de entrada</strong> (produto de R$ 35-98, cost cap) e impulsionamento do funil de consciência C0-C3</span></li>
+      <li><span class="dot"></span><span><strong>Diagnóstico de métricas</strong> (hook rate, CTR, CPA, ROAS) em cadência diária, semanal e mensal — e orçamento calculado de trás pra frente</span></li>
+    </ul>
+  </div>
+
+  <div class="cap-block">
+    <h3><span class="ico">🧰</span>Do criativo à página</h3>
+    <ul>
+      <li><span class="dot"></span><span><strong>Copy e criativos de anúncio</strong>: hooks, body, batelada de 15, criativos de topo pra funil de VSL</span></li>
+      <li><span class="dot"></span><span><strong>Páginas de destino</strong>: estrutura, otimização de velocidade (LCP &lt; 1.5s) e conferência da página no ar (copy, CTA, pixel) depois do deploy</span></li>
+      <li><span class="dot"></span><span><strong>Google Ads</strong> e dashboards de acompanhamento</span></li>
+    </ul>
+  </div>
+
+  <div class="cap-block">
+    <h3><span class="ico">✨</span>Experimente agora (cola no chat)</h3>
+    <div class="code-block">
+      <pre id="cmd-ex1" style="padding-right:96px">Use o agente trafego-turbo: monta o plano de orçamento pra captar 500 inscritos com CPA-alvo de R$ 12</pre>
+      <button class="copy-btn" data-copy="cmd-ex1">Copiar</button>
+    </div>
+    <div class="code-block">
+      <pre id="cmd-ex2" style="padding-right:96px">Use o agente trafego-turbo: diagnostica estas métricas da minha campanha: [cole hook rate, CTR, CPA, ROAS]</pre>
+      <button class="copy-btn" data-copy="cmd-ex2">Copiar</button>
+    </div>
+    <p style="margin-top:12px">Comandos rápidos (<strong>*subir-campanhas</strong>, <strong>*otimizar</strong>, <strong>*orcamento</strong>…) estão no README.</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-h">👉 Próximos passos</h2>
+  <p class="section-sub">O gestor está instalado — agora é colocar tráfego no ar.</p>
+  <div class="next-grid">
+    <a class="next-card" href="https://github.com/Turbo-Academy/gestor-trafego-turbo#como-usar"><div class="n">Passo 1</div><h3>README · comandos do agente</h3><p>As 18 skills, os comandos rápidos e as regras de segurança.</p></a>
+    <a class="next-card" href="https://github.com/Turbo-Academy/gestor-trafego-turbo#como-usar"><div class="n">Passo 2</div><h3>Conectar a Meta Ads CLI</h3><p>Peça ao agente: "me guia no setup da Meta Ads CLI" — o token fica fora do repo.</p></a>
+    <a class="next-card" href="https://github.com/Turbo-Academy/squad-turbo-lpsg-7.0"><div class="n">Quer mais?</div><h3>Squad Turbo completo</h3><p>O método inteiro: 13 agentes e o lançamento de ponta a ponta.</p></a>
+  </div>
+</section>
+
+</div>
+
+<footer>Gestor de Tráfego Turbo — este manual também existe em texto puro: <strong>INSTALACAO-DO-ZERO.md</strong> (no repositório)</footer>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var el=document.getElementById(btn.dataset.copy);
+    var texto=el.textContent;
+    function feito(){
+      btn.textContent='Copiado ✓';btn.classList.add('ok');
+      setTimeout(function(){btn.textContent='Copiar';btn.classList.remove('ok')},1800);
+    }
+    // fallback pra file:// e contextos sem clipboard API: textarea + execCommand
+    function planoB(){
+      var ta=document.createElement('textarea');
+      ta.value=texto;ta.style.position='fixed';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');feito();}
+      catch(e){window.getSelection().selectAllChildren(el);btn.textContent='Selecione e copie';}
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(texto).then(feito,planoB);
+    }else{planoB();}
+  });
+});
+</script>
+</body>
+</html>
