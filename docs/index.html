@@ -116,6 +116,9 @@
   footer{border-top:1px solid var(--line);padding:28px 0 42px;color:var(--faint);font-size:12px}
   footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   footer a{text-decoration:none;color:var(--muted)}
+  .oneliner{position:relative;margin:18px 0 0;border:1px solid oklch(18% .026 248 / .3);background:oklch(16% .026 248);color:oklch(92% .018 83);padding:16px 92px 16px 18px;font-family:"Azeret Mono",ui-monospace,monospace;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+  .oneliner button{position:absolute;top:10px;right:10px;min-height:30px;padding:0 12px;border:1px solid oklch(72% .17 48);background:transparent;color:oklch(92% .018 83);font-family:"Azeret Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+  .oneliner button:hover{background:oklch(72% .17 48);color:oklch(16% .019 248)}
   :focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
   .hero-text,.console,.metric,.row,.cmd,.install-grid,.cta-final{animation:rise .7s cubic-bezier(.22,1,.36,1) both}
   .console{animation-delay:.08s}.metric:nth-child(2){animation-delay:.04s}.metric:nth-child(3){animation-delay:.08s}.metric:nth-child(4){animation-delay:.12s}
@@ -150,6 +153,7 @@
       <a href="#oquefaz">Protocolo</a>
       <a href="#comandos">Comandos</a>
       <a href="#instalar">Instalar</a>
+      <a href="instalar/">Manual</a>
       <a href="claro/">Fundo claro</a>
       <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub</a>
     </div>
@@ -185,7 +189,7 @@
 
   <div class="metrics">
     <div class="wrap metrics-grid">
-      <div class="metric"><b>16</b><span>skills incluídas</span></div>
+      <div class="metric"><b>18</b><span>skills incluídas</span></div>
       <div class="metric"><b>4</b><span>inputs antes de subir</span></div>
       <div class="metric"><b>15</b><span>criativos por batelada</span></div>
       <div class="metric"><b>1</b><span>variável por teste</span></div>
@@ -207,8 +211,9 @@
         <div class="row"><span class="idx">02</span><h3>Diagnóstico em sequência fixa</h3><p>Hook rate abaixo de 30%, troca o hook. Body fraco, reescreve. CTR abaixo de 1.5%, revê a promessa. CPA alto, olha a página. <b>Cada métrica aponta para uma ação</b>, com cadência diária, debrief semanal e saúde da conta no mês.</p></div>
         <div class="row"><span class="idx">03</span><h3>Orçamento de trás pra frente</h3><p>Meta de inscritos × CPA-alvo = verba da semana. Escala de <b>+20 a 30%</b> só com 3 dias de ROAS estável. Kill rule: gastou R$150 sem venda, pausa. A conta decide, não a ansiedade.</p></div>
         <div class="row"><span class="idx">04</span><h3>Execução via Meta Ads CLI</h3><p>Sobe campanha direto pela Graph API com runbooks validados em campo, cost cap, atribuição incremental, carrossel, vídeo grande. <b>Toda campanha nasce pausada.</b> Ativar é decisão sua, sempre.</p></div>
-        <div class="row"><span class="idx">05</span><h3>Criativos e páginas</h3><p>Batelada de 15 criativos (5 estáticos, 5 carrosséis, 5 vídeos) com arsenal de hooks e copy de anúncio. Páginas de destino com <b>LCP abaixo de 1.5s</b>, porque criativo bom com página lenta é verba queimada.</p></div>
-        <div class="row"><span class="idx">06</span><h3>Dois modelos, duas contas</h3><p>Evento: ROAS 1 no ingresso, lucro no produto principal. Funil perpétuo: CPA-máximo derivado do <b>LTV</b>, não do front. Ele pergunta qual é o seu modelo antes de otimizar. O alvo muda tudo.</p></div>
+        <div class="row"><span class="idx">05</span><h3>Criativos e páginas</h3><p>Batelada de 15 criativos (5 estáticos, 5 carrosséis, 5 vídeos) com arsenal de hooks e copy de anúncio. Páginas de destino com <b>LCP abaixo de 1.5s</b>, porque criativo bom com página lenta é verba queimada. Criativos de topo pra funil de VSL entram na mesma esteira.</p></div>
+        <div class="row"><span class="idx">06</span><h3>Página no ar, conferida</h3><p>Depois do deploy ele lê a própria página, direto no chat: a copy aprovada está lá, o CTA aponta pro checkout certo, o pixel carrega. E lê a página do concorrente quando você precisa de referência. <b>Decisão por leitura, não por print.</b></p></div>
+        <div class="row"><span class="idx">07</span><h3>Dois modelos, duas contas</h3><p>Evento: ROAS 1 no ingresso, lucro no produto principal. Funil perpétuo: CPA-máximo derivado do <b>LTV</b>, não do front. Ele pergunta qual é o seu modelo antes de otimizar. O alvo muda tudo.</p></div>
       </div>
     </div>
   </section>
@@ -229,8 +234,9 @@
         <div class="cmd"><b>*otimizar</b><span>diagnóstico e otimização de métricas</span></div>
         <div class="cmd"><b>*orcamento</b><span>plano de verba e distribuição</span></div>
         <div class="cmd"><b>*publicos</b><span>públicos e segmentações</span></div>
-        <div class="cmd"><b>*funil-8-turbo</b><span>campanha ASC do produto de entrada</span></div>
+        <div class="cmd"><b>*funil-8-turbo</b><span>campanha cost cap do produto de entrada</span></div>
         <div class="cmd"><b>*distribuicao-turbo</b><span>impulsionamento e remarketing de consciência</span></div>
+        <div class="cmd"><b>*google-ads</b><span>campanhas Google Ads</span></div>
       </div>
 
       <p class="method-note">A premissa dele é uma só: <b>uma variável por teste</b>. Mudou duas coisas, você não sabe o que funcionou. Criativo antes de público, escala horizontal antes de verba, decisão pelo número medido, não pelo pixel inflado.</p>
@@ -241,8 +247,11 @@
     <div class="wrap install-grid">
       <div>
         <p class="eyebrow">Como instalar</p>
-        <h2>Grátis, aberto e rodando em três comandos.</h2>
-        <p class="after">Requisito: <a href="https://claude.com/claude-code">Claude Code</a> instalado. O pacote traz o agente e as 16 skills; o instalador coloca tudo no lugar.</p>
+        <h2>Nunca usou o Claude Code? Um comando resolve.</h2>
+        <p class="after">No app <a href="https://claude.ai/download">Claude Desktop</a>, abra o <b>Code</b>, escolha uma pasta e cole:</p>
+        <div class="oneliner"><code id="cmd-instalar">instale o gestor de tráfego github.com/Turbo-Academy/gestor-trafego-turbo</code><button type="button" data-copy="cmd-instalar">copiar</button></div>
+        <p class="after">O próprio Claude baixa o repositório e instala o agente com as 18 skills — sem Terminal, sem git, sem senha. Depois <b>feche a sessão e abra outra</b>: o que acabou de ser instalado só carrega em sessão nova.</p>
+        <p class="after"><a href="instalar/"><b>Manual passo a passo completo →</b></a> com imagens de cada etapa e socorro pra cada tropeço.</p>
         <p class="after">Seu dinheiro continua no seu controle: toda campanha nova nasce <b>pausada</b>, toda operação de escrita pede confirmação e o token da Meta fica na sua máquina.</p>
       </div>
       <div class="terminal">
@@ -252,7 +261,7 @@
 <span class="c"># 2 · instalar agente + skills</span><br>
 <span class="g">$</span> cd gestor-trafego-turbo && ./install.sh<br>
 <br>
-<span class="c"># 3 · reiniciar o Claude Code e chamar o gestor</span><br>
+<span class="c"># 3 · reiniciar o Claude Code (sessão nova) e chamar o gestor</span><br>
 <span class="c">"Use o agente trafego-turbo para estruturar minhas campanhas"</span>
       </div>
     </div>
@@ -274,5 +283,15 @@
     <span><a href="https://turboacademy.com.br">turboacademy.com.br</a> · <a href="https://github.com/Turbo-Academy/gestor-trafego-turbo">GitHub</a></span>
   </div>
 </footer>
+<script>
+document.querySelectorAll('.oneliner button').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var texto=document.getElementById(btn.dataset.copy).textContent;
+    function feito(){btn.textContent='copiado';setTimeout(function(){btn.textContent='copiar'},1800);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(texto).then(feito);}
+    else{var ta=document.createElement('textarea');ta.value=texto;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');feito();}catch(e){}document.body.removeChild(ta);}
+  });
+});
+</script>
 </body>
 </html>

@@ -43,7 +43,7 @@ Este pacote roda sozinho. Você não precisa do Squad Turbo completo para usar.
 
 ## Instalação
 
-> 🚀 **Nunca usou o Claude Code?** Siga o **[INSTALACAO-DO-ZERO.md](INSTALACAO-DO-ZERO.md)** — tudo pelo app Claude Desktop: você cola `instale o gestor de tráfego github.com/Turbo-Academy/gestor-trafego-turbo` no Code e o próprio Claude instala. [Versão bonita no navegador](https://turbo-academy.github.io/gestor-trafego-turbo/instalacao-do-zero.html).
+> 🚀 **Nunca usou o Claude Code?** Siga o **[INSTALACAO-DO-ZERO.md](INSTALACAO-DO-ZERO.md)** — tudo pelo app Claude Desktop: você cola `instale o gestor de tráfego github.com/Turbo-Academy/gestor-trafego-turbo` no Code e o próprio Claude instala. [Versão bonita no navegador](https://ta.turboacademy.com.br/gestordetrafegoturbo/instalar/).
 
 ```bash
 git clone https://github.com/Turbo-Academy/gestor-trafego-turbo.git

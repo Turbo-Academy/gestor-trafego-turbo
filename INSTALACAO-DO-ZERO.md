@@ -1,6 +1,6 @@
 # 🚀 Instalação do zero — um comando no Claude e o gestor de tráfego instalado
 
-> 🌐 **Versão bonita deste manual:** [turbo-academy.github.io/gestor-trafego-turbo/instalacao-do-zero.html](https://turbo-academy.github.io/gestor-trafego-turbo/instalacao-do-zero.html) — com botão de copiar em cada comando.
+> 🌐 **Versão bonita deste manual:** [ta.turboacademy.com.br/gestordetrafegoturbo/instalar](https://ta.turboacademy.com.br/gestordetrafegoturbo/instalar/) — com botão de copiar em cada comando.
 
 > **Para quem nunca usou o Claude Code.** Tudo pelo **app Claude Desktop**: você cola **um comando com o link do GitHub** e o próprio Claude baixa e instala. Sem Terminal, sem ZIP, sem git, sem senha.
 >
