@@ -113,4 +113,3 @@ O app Claude Desktop também existe pra Windows — Etapas 1 e 2 são iguais. No
 
 1. **[README](README.md)** — as 18 skills, os comandos rápidos do agente e as regras de segurança (campanha nasce pausada · token nunca no repo)
 2. Conectar a **Meta Ads CLI**: peça ao agente `me guia no setup da Meta Ads CLI` (a skill `meta-ads-cli-setup-turbo` conduz — o token fica fora do repo)
-3. Quer o método completo (lançamento inteiro, 13 agentes)? **[Squad Turbo LPSG](https://github.com/Turbo-Academy/squad-turbo-lpsg-7.0)**
