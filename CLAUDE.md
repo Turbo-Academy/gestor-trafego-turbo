@@ -24,4 +24,4 @@ O manual humano dessa instalação é o [INSTALACAO-DO-ZERO.md](INSTALACAO-DO-ZE
 
 - Agente de **tráfego pago** (Meta Ads + Google Ads) da Turbo Academy: 1 agente + 18 skills, roda **sem** o Squad Turbo completo. Comece pelo [README](README.md).
 - Regras de segurança do agente: campanha nova nasce **PAUSED**; a CLI confirma toda escrita; token da Meta **nunca** entra no repo.
-- O repo é público. As skills são cópias das canônicas do Squad Turbo (repo squad-turbo-lpsg-7.0) — melhorias entram por lá e são sincronizadas pra cá; não edite as cópias daqui à mão.
+- O repo é público. As skills são cópias das canônicas do Squad Turbo (repo squad-turbo-2026) — melhorias entram por lá e são sincronizadas pra cá; não edite as cópias daqui à mão.
